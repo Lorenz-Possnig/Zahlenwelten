@@ -29,10 +29,24 @@ MonoBehaviour:
     witApiVersion: 
     speech: 
     message: 
-  entities: []
+  entities:
+  - witConfiguration: {fileID: 11400000}
+    id: 57218985-f8e3-4a93-9368-3791a35ba2dc
+    name: wit$number
+    lookups: []
+    roles:
+    - id: 974410656584789
+      name: number
+    keywords: []
   intents:
   - witConfiguration: {fileID: 11400000}
     id: 806555116959153
     name: getNumber
-    entities: []
+    entities:
+    - witConfiguration: {fileID: 11400000}
+      id: 974410656584789
+      name: wit$number:number
+      lookups: []
+      roles: []
+      keywords: []
   traits: []

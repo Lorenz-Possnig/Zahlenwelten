@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class ColorChanger : MonoBehaviour
 {
+    private Material originalMat;
+    public Material selectedMat;
+
+    private Renderer renderer;
+    /*
    private void SetColor(Transform transform, Color color)
    {
        transform.GetComponent<Renderer>().material.color = color;
@@ -30,4 +35,19 @@ public class ColorChanger : MonoBehaviour
            }
        }
    }
+    */
+    public void Start()
+    {
+        renderer = transform.GetComponent<Renderer>();
+        originalMat = renderer.material;
+    }
+
+    public void Select()
+    {
+        if (renderer.material == selectedMat) {
+            renderer.material = originalMat;
+        } else {
+            renderer.material = selectedMat;
+        }
+    }
 }
