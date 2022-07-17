@@ -13,40 +13,14 @@ MonoBehaviour:
   m_Name: Shapes Demo - WitConfiguration
   m_EditorClassIdentifier: 
   application:
-    witConfiguration: {fileID: 11400000}
-    name: zahlenwelten
-    id: 4938339572882442
-    lang: de
+    witConfiguration: {fileID: 0}
+    name: 
+    id: 
+    lang: 
     isPrivate: 0
-    createdAt: 2022-06-09T04:08:53-0700
+    createdAt: 
   configId: 4e21a24e472ab684e84db753427d5687
-  clientAccessToken: WHT2I3E6ROCRA73GQSNH2CM322C3SAZL
-  timeoutMS: 10000
-  endpointConfiguration:
-    uriScheme: 
-    authority: 
-    port: 0
-    witApiVersion: 
-    speech: 
-    message: 
-  entities:
-  - witConfiguration: {fileID: 11400000}
-    id: 57218985-f8e3-4a93-9368-3791a35ba2dc
-    name: wit$number
-    lookups: []
-    roles:
-    - id: 974410656584789
-      name: number
-    keywords: []
-  intents:
-  - witConfiguration: {fileID: 11400000}
-    id: 806555116959153
-    name: getNumber
-    entities:
-    - witConfiguration: {fileID: 11400000}
-      id: 974410656584789
-      name: wit$number:number
-      lookups: []
-      roles: []
-      keywords: []
+  clientAccessToken: 
+  entities: []
+  intents: []
   traits: []
