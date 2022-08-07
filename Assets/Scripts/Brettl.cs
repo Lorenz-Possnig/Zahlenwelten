@@ -6,10 +6,9 @@ public class Brettl : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //.Log("OnTriggerEnter");
+        Debug.Log("OnTriggerEnter");
         if (other.gameObject.CompareTag("numberBalloon"))
         {
-            //.Log("Is A Balloon");
             NumberBalloon numberBalloon = other.gameObject.GetComponent<NumberBalloon>();
 
             if (numberBalloon.value != referenceDigit)

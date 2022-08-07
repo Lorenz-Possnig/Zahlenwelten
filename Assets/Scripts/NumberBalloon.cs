@@ -9,21 +9,21 @@ public class NumberBalloon : MonoBehaviour
 
     public void Pop()
     {
-        //Debug.Log("X Pop " + value);
+        Debug.Log("Zahlenwelten: Pop " + value);
         //.Log($"Pop: {value}");
         this.GetComponent<ChangeToRed>().ChangeToRedMethod();
         //this.gameObject.SetActive(false);
     }
     public void Yey()
     {
-        //Debug.Log("X YEY " + value);
+        Debug.Log("Zahlenwelten: YEY " + value);
         //.Log($"Yey: {value}");
         this.GetComponent<ChangeToGreen>().ChangeToGreenMethod();
     }
 
     private void GetLost()
     {
-        //Debug.Log("X GetLost " + value);
+        Debug.Log("Zahlenwelten: GetLost " + value);
         //.Log($"GetLost: {value}");
         this.gameObject.SetActive(false);
     }
