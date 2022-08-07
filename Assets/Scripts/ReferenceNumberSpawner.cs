@@ -10,18 +10,20 @@ public class ReferenceNumberSpawner : MonoBehaviour
     private int level = 1;
     [SerializeField]
     private GameObject[] digitBrettln;
-    private Brettl[] Brettln;
+    private Brettl[] brettln;
 
     void Start()
     {
-        Brettln = new Brettl[level];
+        brettln = new Brettl[level];
         int i = 0;
         foreach (GameObject digitBrettl in digitBrettln)
         {
-            Debug.Log("X Start(): Brettln Length: " + Brettln.Length);
-            Debug.Log("X Start(): Brettl ReferenceDigit: " + digitBrettl.GetComponent<Brettl>().referenceDigit);
+            //Debug.Log("X Start(): Brettln Length: " + Brettln.Length);
+            //Zahlenwelten.Log($"Start: Brettln.Length={brettln.Length}");
+            //Debug.Log("X Start(): Brettl ReferenceDigit: " + digitBrettl.GetComponent<Brettl>().referenceDigit);
+            //Zahlenwelten.Log($"Start: RefDigit={digitBrettl.GetComponent<Brettl>().referenceDigit}");
 
-            Brettln[i] = digitBrettl.GetComponent<Brettl>();
+            brettln[i] = digitBrettl.GetComponent<Brettl>();
             i++;
         }
         SetNumbers();
@@ -31,12 +33,15 @@ public class ReferenceNumberSpawner : MonoBehaviour
     {
         int num = NumberGenerator.GetRandom(level);
         byte[] digits = num.ToString().ToCharArray().Select(x => x.ToString()).Select(byte.Parse).ToArray();
-        Debug.Log("X SetNumbers(): Ganze Oasch Array: " + digits);
+        //Debug.Log("X SetNumbers(): Ganze Oasch Array: " + digits);
+        //Zahlenwelten.Log($"SetNumbers: arr={digits.AsString()}");
         for (int i = 0; i < digits.Length; i++)
         {
-            Debug.Log("X SetNumbers(): Generated Digit: " + digits[i]);
-            Brettln[i].referenceDigit = digits[i];
-            Debug.Log("X SetNumbers(): Reference Digit: " + Brettln[i].referenceDigit);
+            //Debug.Log("X SetNumbers(): Generated Digit: " + digits[i]);
+            //Zahlenwelten.Log($"SetNumbers: {digits[i]}");
+            brettln[i].referenceDigit = digits[i];
+            //Debug.Log("X SetNumbers(): Reference Digit: " + brettln[i].referenceDigit);
+            //Zahlenwelten.Log($"SetNumbers: {brettln[i].referenceDigit}");
         }
     }
 

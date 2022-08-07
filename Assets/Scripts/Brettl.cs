@@ -6,8 +6,10 @@ public class Brettl : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //.Log("OnTriggerEnter");
         if (other.gameObject.CompareTag("numberBalloon"))
         {
+            //.Log("Is A Balloon");
             NumberBalloon numberBalloon = other.gameObject.GetComponent<NumberBalloon>();
 
             if (numberBalloon.value != referenceDigit)
@@ -19,11 +21,13 @@ public class Brettl : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("X Awake Brettl Script " + referenceDigit);
+        //Debug.Log("X Awake Brettl Script " + referenceDigit);
+        //.Log($"Awake: {referenceDigit}");
     }
     void Start()
     {
-        Debug.Log("X Start Brettl Script " + referenceDigit);
+        //Debug.Log("X Start Brettl Script " + referenceDigit);
+        //.Log($"Start: {referenceDigit}");
     }
     // Update is called once per frame
     void Update()

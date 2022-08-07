@@ -23,6 +23,7 @@ public class NumberGenerator
 
     public static int GetRandom(int level)
     {
+        //Zahlenwelten.Log($"Generating random number for level: {level}");
         //int number = Random.Range(1,10);      
 
         //if (level == 2)
