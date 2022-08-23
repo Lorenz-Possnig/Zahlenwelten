@@ -10,38 +10,25 @@ public class ReferenceNumberSpawner : MonoBehaviour
     private int level = 1;
     [SerializeField]
     private GameObject[] digitBrettln;
-    private Brettl[] brettln;
 
+    /// <summary>
+    /// Get the "Brettl" component from the GameObjects entered in the Inspector
+    /// and set the randomly generated numbers as the ReferenceNumber of the components
+    /// </summary>
+    /// <returns></returns>
     void Start()
     {
-        brettln = new Brettl[level];
-        int i = 0;
-        foreach (GameObject digitBrettl in digitBrettln)
+        Debug.Log("Zahlenwelten [ReferenceNumberSpawner]: Start");
+        byte[] digits = NumberGenerator.GetRandom(level)
+            .ToString()
+            .ToCharArray()
+            .Select(x => x.ToString())
+            .Select(byte.Parse)
+            .ToArray();
+        for (int i = 0; i < digitBrettln.Length; i++)
         {
-            //Debug.Log("X Start(): Brettln Length: " + Brettln.Length);
-            //Zahlenwelten.Log($"Start: Brettln.Length={brettln.Length}");
-            //Debug.Log("X Start(): Brettl ReferenceDigit: " + digitBrettl.GetComponent<Brettl>().referenceDigit);
-            //Zahlenwelten.Log($"Start: RefDigit={digitBrettl.GetComponent<Brettl>().referenceDigit}");
-
-            brettln[i] = digitBrettl.GetComponent<Brettl>();
-            i++;
-        }
-        SetNumbers();
-    }
-
-    public void SetNumbers()
-    {
-        int num = NumberGenerator.GetRandom(level);
-        byte[] digits = num.ToString().ToCharArray().Select(x => x.ToString()).Select(byte.Parse).ToArray();
-        //Debug.Log("X SetNumbers(): Ganze Oasch Array: " + digits);
-        //Zahlenwelten.Log($"SetNumbers: arr={digits.AsString()}");
-        for (int i = 0; i < digits.Length; i++)
-        {
-            //Debug.Log("X SetNumbers(): Generated Digit: " + digits[i]);
-            //Zahlenwelten.Log($"SetNumbers: {digits[i]}");
-            brettln[i].referenceDigit = digits[i];
-            //Debug.Log("X SetNumbers(): Reference Digit: " + brettln[i].referenceDigit);
-            //Zahlenwelten.Log($"SetNumbers: {brettln[i].referenceDigit}");
+            Debug.Log("Zahlenwelten [ReferenceNumberSpawner]: Set number " + digits[i]);
+            digitBrettln[i].GetComponent<Brettl>().ReferenceDigit = digits[i];
         }
     }
 
