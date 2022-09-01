@@ -5,85 +5,81 @@ using UnityEngine;
 public class NumberBalloon : MonoBehaviour
 {
     [SerializeField]
-    private byte value;
-    
-    // set by the brettl GO on trigger enter; reset to 0 on trigger exit
-    public byte ReferenceNumber { get; set; } = 0;
-    // set by the brettl GO on trigger enter; reset on trigger exit
-    public bool IsInTrigger { get; set; } = false;
+    public byte Value;
 
     [SerializeField]
     private AudioClip Pop;
 
     [SerializeField]
     private AudioClip Success;
-    
-    private AudioSource _audioSource;
+
+    [SerializeField]
+    private AudioSource AudioSource;
+
+    public bool PlacedCorrectly { get; set; }
+
+    public bool IsInTrigger { get; set; }
 
     public void OnManipulationStop()
     {
         if (IsInTrigger)
         {
-            if (this.ReferenceNumber == this.value)
+            if (PlacedCorrectly)
             {
                 this.CorrectNumberEvent();
             }
             else
             {
-                this.IncorrectNumberEvent();
+                this.WrongNumberEvent();
             }
-        }
-        else
+        } else
         {
-            this.StoppedManipulationOutsideTriggerEvent();
+            this.LetGoEvent();
         }
     }
 
     public void OnManipulationStart()
     {
         Debug.Log("Zahlenwelten [NumberBalloon]: OnManipulationStart");
-        Instantiate(this.gameObject);
+        Instantiate(this.gameObject, transform.position, transform.rotation, transform.parent);
         /// TODO: maybe give the newly created game object a new colour?
         /// Question is if it would be better so set the balloons colour in the start method instead
     }
     
-    /// <summary>
-    /// When a number is placed incorrectly, "pops" the balloon.
-    /// I.e. plays a "pop" sound and destroys the GO
-    /// </summary>
-    /// <returns></returns>
-    private void IncorrectNumberEvent()
+ 
+    public void CorrectNumberEvent()
     {
-        Debug.Log("Zahlenwelten [NumberBalloon]: Incorrect Number Event; Reference Number: " + value);
-        this._audioSource.PlayOneShot(this.Pop);
-        Destroy(this.gameObject);
-    }
-    
-    /// <summary>
-    /// When a number is correct, it should snap into place
-    /// and play a "Yay"/Success sound.
-    /// TODO: Snap into place
-    /// </summary>
-    /// <returns></returns>
-    private void CorrectNumberEvent()
-    {
-        Debug.Log("Zahlenwelten [NumberBalloon]: Correct Number Event; Reference Number: " + value);
+        Debug.Log("Zahlenwelten [NumberBalloon]: Correct Number Event; Reference Number: " + Value);
         // snap into place here
-        this._audioSource.PlayOneShot(this.Success);
+        this.AudioSource.PlayOneShot(this.Success);
     }
 
-    /// <summary>
-    /// When you let go of the balloon outside of the trigger,
-    /// it should float away like a helium balloon and despawn when out of sight.
-    /// </summary>
-    /// <returns></returns>
-    // TODO: make the Balloon float away
-    private void StoppedManipulationOutsideTriggerEvent()
+    public void WrongNumberEvent()
     {
-        Debug.Log("Zahlenwelten [NumberBalloon]: StoppedManipulationOutsideTriggerEvent");
-        this.gameObject.SetActive(false);
-        // float away here
-        Destroy(this.gameObject, 5); //destroy after 5 seconds
+        Debug.Log("Zahlenwelten [NumberBalloon]: Wrong Number Event Reference Number: " + Value);
+        gameObject.SetActive(false);
+        this.AudioSource.PlayOneShot(this.Pop);
+        Destroy(gameObject, 5); //destroy after 5 seconds
+    }
+
+    public void LetGoEvent()
+    {
+        StartCoroutine(floatAway());
+    }
+
+    private IEnumerator floatAway()
+    {
+        float inTime = 5f;
+        Vector3 frompos = transform.position;
+        Vector3 endpos = transform.up * 5f;
+
+        for (float t = 5f; t >= 0; t += Time.deltaTime / inTime)
+        {
+            transform.position = Vector3.Lerp(frompos, endpos, t);
+            yield return null;
+        }
+
+        Destroy(this);
     }
 
     /// <summary>
@@ -93,7 +89,6 @@ public class NumberBalloon : MonoBehaviour
     /// <returns></returns>
     void Start()
     {
-        this._audioSource = this.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

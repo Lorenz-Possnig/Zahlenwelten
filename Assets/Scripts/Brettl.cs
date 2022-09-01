@@ -4,6 +4,10 @@ public class Brettl : MonoBehaviour
 {
     public byte ReferenceDigit { get; set; } = 0;
 
+    public bool Correct { get; set; } = false;
+
+    public bool WrongTry { get; set; } = false;
+
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("Zahlenwelten [Brettl]: OnTriggerEnter");
@@ -11,7 +15,16 @@ public class Brettl : MonoBehaviour
         {
             NumberBalloon balloon = other.gameObject.GetComponent<NumberBalloon>();
             balloon.IsInTrigger = true;
-            balloon.ReferenceNumber = this.ReferenceDigit;
+
+            if (this.ReferenceDigit == balloon.Value)
+            {
+                balloon.PlacedCorrectly = true;
+                Correct = true;
+            } else
+            {
+                balloon.WrongNumberEvent();
+                WrongTry = true;
+            }
         }
     }
 
@@ -21,8 +34,8 @@ public class Brettl : MonoBehaviour
         if (other.gameObject.CompareTag("numberBalloon"))
         {
             NumberBalloon balloon = other.gameObject.GetComponent<NumberBalloon>();
-            balloon.IsInTrigger = false;
-            balloon.ReferenceNumber = 0;
+            balloon.PlacedCorrectly = false;
+            Correct = false;
         }
     }
 

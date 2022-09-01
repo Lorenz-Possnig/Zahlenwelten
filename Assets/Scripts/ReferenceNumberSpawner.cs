@@ -17,7 +17,7 @@ public class ReferenceNumberSpawner : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     void Start()
-    {
+    {/*
         Debug.Log("Zahlenwelten [ReferenceNumberSpawner]: Start");
         byte[] digits = NumberGenerator.GetRandom(level)
             .ToString()
@@ -29,7 +29,7 @@ public class ReferenceNumberSpawner : MonoBehaviour
         {
             Debug.Log("Zahlenwelten [ReferenceNumberSpawner]: Set number " + digits[i]);
             digitBrettln[i].GetComponent<Brettl>().ReferenceDigit = digits[i];
-        }
+        }*/
     }
 
     // Update is called once per frame
