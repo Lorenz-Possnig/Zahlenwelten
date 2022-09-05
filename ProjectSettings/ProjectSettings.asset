@@ -687,6 +687,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
+    0: OCULUSINTEGRATION_PRESENT
     1: OCULUSINTEGRATION_PRESENT
     7: OCULUSINTEGRATION_PRESENT
   additionalCompilerArguments: {}
