@@ -16,34 +16,44 @@ public class NumberBalloon : MonoBehaviour
     [SerializeField]
     private AudioSource AudioSource;
 
-    public bool PlacedCorrectly { get; set; }
-
-    public bool IsInTrigger { get; set; }
-
-    public void OnManipulationStop()
+    public void OnTriggerEnter(Collider other)
     {
-        if (IsInTrigger)
+        Debug.Log("Zahlenwelten [NumberBalloon]: OnTriggerEnter");
+        if (other.CompareTag("brettl"))
         {
-            if (PlacedCorrectly)
+            Brettl b = other.GetComponent<Brettl>();
+            if (b.ReferenceDigit == Value)
             {
                 this.CorrectNumberEvent();
-            }
-            else
+            } else
             {
                 this.WrongNumberEvent();
             }
-        } else
+        } else if (other.CompareTag("hand"))
         {
-            this.LetGoEvent();
+            Debug.Log("Zahlenwelten [NumberBalloon]: Duplicate");
+            StartCoroutine(this.Duplicate());
         }
     }
 
-    public void OnManipulationStart()
+    private IEnumerator Duplicate()
     {
-        Debug.Log("Zahlenwelten [NumberBalloon]: OnManipulationStart");
-        Instantiate(this.gameObject, transform.position, transform.rotation, transform.parent);
-        /// TODO: maybe give the newly created game object a new colour?
-        /// Question is if it would be better so set the balloons colour in the start method instead
+        var go = this.gameObject;
+        var pos = transform.position;
+        var rot = transform.rotation;
+        var par = transform.parent;
+        for (int i = 0; i < 2; i++)
+        {
+            if (i == 1)
+                Instantiate(go, pos, rot, par);
+            yield return new WaitForSeconds(2);
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        Debug.Log("Zahlenwelten [NumberBalloon]: OnTriggerExit");
+        this.LetGoEvent();
     }
     
  

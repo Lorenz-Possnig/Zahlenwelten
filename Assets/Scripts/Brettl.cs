@@ -10,7 +10,7 @@ public class Brettl : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Zahlenwelten [Brettl]: OnTriggerEnter");
+        /*Debug.Log("Zahlenwelten [Brettl]: OnTriggerEnter");
         if (other.gameObject.CompareTag("numberBalloon"))
         {
             NumberBalloon balloon = other.gameObject.GetComponent<NumberBalloon>();
@@ -25,18 +25,18 @@ public class Brettl : MonoBehaviour
                 balloon.WrongNumberEvent();
                 WrongTry = true;
             }
-        }
+        }*/
     }
 
     void OnTriggerExit(Collider other)
-    {
+    {/*
         Debug.Log("Zahlenwelten [Brettl]: OnTriggerExit");
         if (other.gameObject.CompareTag("numberBalloon"))
         {
             NumberBalloon balloon = other.gameObject.GetComponent<NumberBalloon>();
             balloon.PlacedCorrectly = false;
             Correct = false;
-        }
+        }*/
     }
 
     void Start()

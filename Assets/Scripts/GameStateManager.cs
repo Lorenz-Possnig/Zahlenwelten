@@ -52,7 +52,7 @@ public class GameStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_currentTask.Running)
+        if (_currentTask != null && !_currentTask.Running)
         {
             _currentStage = gameStateGraph[_currentStage].NextStage;
             _currentTask = new Task(gameStateGraph[_currentStage].Coroutine);
@@ -117,7 +117,7 @@ public class GameStateManager : MonoBehaviour
 
         while (audioSource.isPlaying)
         {
-            yield return new WaitForSeconds(0);
+            yield return new WaitForSeconds(1);
         }
 
         yield return new WaitForSeconds(after);
