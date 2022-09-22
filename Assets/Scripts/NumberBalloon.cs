@@ -16,6 +16,11 @@ public class NumberBalloon : MonoBehaviour
     [SerializeField]
     private AudioSource AudioSource;
 
+    [SerializeField]
+    private GameObject GrabbableParent;
+
+    private bool _hasBeenDuplicated = false;
+
     public void OnTriggerEnter(Collider other)
     {
         Debug.Log("Zahlenwelten [NumberBalloon]: OnTriggerEnter");
@@ -32,11 +37,16 @@ public class NumberBalloon : MonoBehaviour
         } else if (other.CompareTag("hand"))
         {
             Debug.Log("Zahlenwelten [NumberBalloon]: Duplicate");
-            StartCoroutine(this.Duplicate());
+            //StartCoroutine(this.Duplicate());
         }
     }
 
-    private IEnumerator Duplicate()
+    public void Duplicate()
+    {
+        StartCoroutine(DuplicateCoroutine());
+    }
+
+    private IEnumerator DuplicateCoroutine()
     {
         var go = this.gameObject;
         var pos = transform.position;
@@ -44,8 +54,11 @@ public class NumberBalloon : MonoBehaviour
         var par = transform.parent;
         for (int i = 0; i < 2; i++)
         {
-            if (i == 1)
-                Instantiate(go, pos, rot, par);
+            if (i == 1 && !_hasBeenDuplicated)
+            {
+                _hasBeenDuplicated = true;
+                Instantiate(GrabbableParent, pos, rot);
+            }
             yield return new WaitForSeconds(2);
         }
     }
@@ -53,7 +66,7 @@ public class NumberBalloon : MonoBehaviour
     public void OnTriggerExit(Collider other)
     {
         Debug.Log("Zahlenwelten [NumberBalloon]: OnTriggerExit");
-        this.LetGoEvent();
+        //this.LetGoEvent();
     }
     
  

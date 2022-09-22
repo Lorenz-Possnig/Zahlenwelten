@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using OculusSampleFramework;
+using System.Linq;
 
 public class HandTrackingGrabber : OVRGrabber
 {
@@ -23,15 +24,21 @@ public class HandTrackingGrabber : OVRGrabber
     private void CheckIndexPinch()
     {
         float pinchStrength = Hand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
-        Debug.Log($"Zahlenwelten [HandTrackingGrabber]: Pinch Strength {pinchStrength}");
+        //Debug.Log($"Zahlenwelten [HandTrackingGrabber]: Pinch Strength {pinchStrength}");
         bool isPinching = pinchStrength > PinchThreshold;
 
         if (isPinching)
         {
             if (!m_grabbedObj && isPinching && m_grabCandidates.Count > 0)
+            {
+                Debug.Log($"Zahlenwelten [HandTrackingGrabber]: Grab Begin");
                 GrabBegin();
+            }
         }
         else if (m_grabbedObj && !isPinching)
+        {
+            Debug.Log($"Zahlenwelten [HandTrackingGrabber]: Grab Begin");
             GrabEnd();
+        }
     }
 }
