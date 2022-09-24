@@ -4,6 +4,8 @@ public class Brettl : MonoBehaviour
 {
     public byte ReferenceDigit { get; set; } = 0;
 
+    public bool IsActive { get; set; }
+
     public bool Correct { get; set; } = false;
 
     public bool WrongTry { get; set; } = false;
@@ -11,7 +13,7 @@ public class Brettl : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("Zahlenwelten [Brettl]: OnTriggerEnter");
-        if (other.gameObject.CompareTag("numberBalloon"))
+        if (other.gameObject.CompareTag("numberBalloon") && IsActive)
         {
             NumberBalloon balloon = other.gameObject.GetComponent<NumberBalloon>();
 

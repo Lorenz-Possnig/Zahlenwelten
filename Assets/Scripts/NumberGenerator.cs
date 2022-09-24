@@ -23,18 +23,18 @@ public class NumberGenerator
 
     public static int GetRandom(int level)
     {
-        //Zahlenwelten.Log($"Generating random number for level: {level}");
-        //int number = Random.Range(1,10);      
+        Debug.Log($"Generating random number for level: {level}");
+        int number = Random.Range(1,10);      
 
-        //if (level == 2)
-        //    number += Random.Range(1,10) * 10;
+        if (level == 2)
+            number += Random.Range(1,10) * 10;
 
-        //if (level == 3)
-        //    number += Random.Range(1, 10) * 100;
+        if (level == 3)
+            number += Random.Range(1, 10) * 100;
 
-        //return number;
+        return number;
 
-        return 1;
+        //return 1;
     }
 }
 
