@@ -21,7 +21,7 @@ public class NumberGenerator
      * 2.) zu Voice recognizeable string machen
     */ 
 
-    public static int GetRandom(int level)
+    /*public static int GetRandom(int level)
     {
         Debug.Log($"Generating random number for level: {level}");
         int number = Random.Range(1,10);      
@@ -33,8 +33,17 @@ public class NumberGenerator
             number += Random.Range(1, 10) * 100;
 
         return number;
+    }*/
 
-        //return 1;
+    public static int GetRandom(int level)
+    {
+        string number = "";
+        for(int i = 0; i < level; i++)
+        {
+            number += Random.Range(1, 10).ToString();
+        }
+        return int.Parse(number);
     }
+
 }
 

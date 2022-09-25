@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -13,15 +15,52 @@ public class SimpleGameStateManager : MonoBehaviour
     private TextMeshProUGUI SpeechBubble;
 
     [SerializeField]
-    private AudioClip hello;
+    private AudioClip HalloIchZeigeDir;
+
+    [SerializeField]
+    private AudioClip WennDuNachLinksSchaust;
+
+    [SerializeField]
+    private AudioClip MitDenenKannstDu;
+
+    [SerializeField]
+    private AudioClip ProbierenWirEsMalMit;
+
+    [SerializeField]
+    private AudioClip NimmBitteDenBallon;
+
+    [SerializeField]
+    private AudioClip AusDemRegal;
+
+    [SerializeField]
+    private AudioClip ProbierenWirEsNochEinmal;
+
+    [SerializeField]
+    private AudioClip DasHastDuGutGemacht;
+    [SerializeField]
+    private AudioClip WagenWirUnsAn;
+    [SerializeField]
+    private AudioClip ProbierenWirDieZahl;
+    [SerializeField]
+    private AudioClip MachenWirNochSoEineZahl;
+    [SerializeField]
+    private AudioClip WagenWirUnsAnDieGanzGrossen;
+
+    public AudioClip[] Numbers;
+
+    public FadeToBlack fade;
 
     public Brettl[] _brettln;
 
     private int _currentGameStage = 0;
     private int _currentNumber;
 
+    private bool _completedLevel2 = false;
+    private byte _completedLevel3 = 0;
+
     private void Awake()
     {
+        //loadAudioFromDisk();
         setupBrettln();
     }
 
@@ -41,28 +80,46 @@ public class SimpleGameStateManager : MonoBehaviour
                 // greeting
                 case 0:
                     setText("Hallo! Ich zeige dir jetzt, wie du dich in unserer Zahlenwelt zurecht findest.");
-                    audioSource.PlayOneShot(hello);
+                    audioSource.PlayOneShot(HalloIchZeigeDir);
                     _currentGameStage = 100;
                     break;
                 case 100:
                     setText("Wenn du nach links schaust, siehst du dort ein Regal aus Holz. Dort sind bunte Zahlenballone.");
+                    //audioSource.PlayOneShot(WennDuNachLinksSchaust);
                     _currentGameStage = 200;
                     break;
                 case 200:
-                    setText("Mit denen kannst du dir später Zahlen bauen, indem du die Ballons in der richtigen Reihenfolge auf die schwebenden Holzbretter in der Mitte ziehst.");
+                    setText("Mit denen kannst du dir Zahlen bauen, indem du die Ballons in der richtigen Reihenfolge auf die schwebenden Holzbretter in der Mitte ziehst.");
+                    //audioSource.PlayOneShot(MitDenenKannstDu);
                     _currentGameStage = 300;
                     break;
                 case 300:
-                    setText("Wenn du nach rechts schaust, siehst du dort ein Schreibbrett - da werden wir dann deine richtigen Zahlen hinschreiben!");
+                    //unused
+                    //setText("Wenn du nach rechts schaust, siehst du dort ein Schreibbrett - da werden wir dann deine richtigen Zahlen hinschreiben!");
                     _currentGameStage = 400;
                     break;
+                // First Level
                 case 400:
-                    setText($"Probieren wir es mal mit der folgenden Zahl: {_currentNumber}!");
+                    setText($"Probieren wir es mal mit der folgenden Zahl");
+                    audioSource.PlayOneShot(ProbierenWirEsMalMit);
+                    _currentGameStage = 410;
+                    break;
+                case 410:
+                    audioSource.PlayOneShot(Numbers[_currentNumber]);
                     _currentGameStage = 500;
                     break;
                 case 500:
-                    setText($"Nimm bitte den Zahlenballon mit der {_currentNumber} aus dem Regal und lass ihn über dem Holzbrett in der Mitte los.");
+                    setText($"Nimm bitte den Zahlenballon aus dem Regal und halte ihn über das Holzbrett.");
+                    audioSource.PlayOneShot(NimmBitteDenBallon);
                     setBrettlnActive();
+                    _currentGameStage = 501;
+                    break;
+                case 501:
+                    audioSource.PlayOneShot(Numbers[_currentNumber]);
+                    _currentGameStage = 502;
+                    break;
+                case 502:
+                    audioSource.PlayOneShot(AusDemRegal);
                     _currentGameStage = 510;
                     break;
                 case 510:
@@ -70,7 +127,8 @@ public class SimpleGameStateManager : MonoBehaviour
                     _currentGameStage = 600;
                     break;
                 case 520:
-                    setText("Probieren wir es noch einmal");
+                    setText("Probieren wir es noch einmal.");
+                    audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
                     _currentGameStage = 500;
                     break;
                 case 600:
@@ -78,20 +136,28 @@ public class SimpleGameStateManager : MonoBehaviour
                     break;
                 case 700:
                     setText("Das hast du gut gemacht!");
+                    audioSource.PlayOneShot(DasHastDuGutGemacht);
                     enableBrettl(1);
                     resetBrettl();
                     setupBrettln();
                     setBrettlnInactive();
                     _currentGameStage = 800;
                     break;
+                // Second Level
                 case 800:
-                    setText("Probieren wir es mit einer größeren Zahl!");
+                    setText("Wagen wir uns an eine größere Zahl heran!");
+                    audioSource.PlayOneShot(WagenWirUnsAn);
+                    resetBrettl();
                     _currentGameStage = 900;
                     break;
                 case 900:
-                    setText($"Probieren wir es mal mit der folgenden Zahl: {_currentNumber}!");
+                    setText($"Probieren wir die Zahl:");
                     setBrettlnActive();
-                    resetBrettl();
+                    audioSource.PlayOneShot(ProbierenWirDieZahl);
+                    _currentGameStage = 910;
+                    break;
+                case 910:
+                    audioSource.PlayOneShot(Numbers[_currentNumber]);
                     _currentGameStage = 1000;
                     break;
                 case 1000:
@@ -99,11 +165,74 @@ public class SimpleGameStateManager : MonoBehaviour
                     break;
                 case 1010:
                     setText("Probieren wir es nocheinmal");
+                    audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
+                    setBrettlnActive();
+                    resetBrettl();
                     _currentGameStage = 900;
                     break;
                 case 1100:
-                    setText("Gut gemacht");
+                    setText("Das hast du gut gemacht");
+                    audioSource.PlayOneShot(DasHastDuGutGemacht);
                     setBrettlnInactive();
+                    _currentGameStage = _completedLevel2 ? 1300 : 1200;
+                    break;
+                case 1200:
+                    setText("Machen wir noch so eine Zahl");
+                    audioSource.PlayOneShot(MachenWirNochSoEineZahl);
+                    resetBrettl();
+                    setupBrettln();
+                    _completedLevel2 = true;
+                    _currentGameStage = 900;
+                    break;
+                // Third level
+                case 1300:
+                    setText("Wagen wir uns an die ganz großen Zahlen!");
+                    audioSource.PlayOneShot(WagenWirUnsAnDieGanzGrossen);
+                    enableBrettl(2);
+                    resetBrettl();
+                    setupBrettln();
+                    setBrettlnActive();
+                    _currentGameStage = 1400;
+                    break;
+                case 1400:
+                    audioSource.PlayOneShot(ProbierenWirDieZahl);
+                    _currentGameStage = 1410;
+                    break;
+                case 1410:
+                    audioSource.PlayOneShot(Numbers[_currentNumber]);
+                    _currentGameStage = 1500;
+                    break;
+                case 1500:
+                    waitForNumbers(1600, 1510);
+                    break;
+                case 1510:
+                    setText("Probieren wir es noch einmal");
+                    audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
+                    resetBrettl();
+                    setBrettlnActive();
+                    _currentGameStage = 1410;
+                    break;
+                case 1600:
+                    setText("Gut gemacht!");
+                    audioSource.PlayOneShot(DasHastDuGutGemacht);
+                    setBrettlnActive();
+                    _completedLevel3++;
+                    _currentGameStage = _completedLevel3 >= 3 ? 9999 : 1610;
+                    break;
+                case 1610:
+                    setText("Machen wir noch so eine Zahl");
+                    audioSource.PlayOneShot(MachenWirNochSoEineZahl);
+                    resetBrettl();
+                    setupBrettln();
+                    _currentGameStage = 1400;
+                    break;
+                case 1700:
+                    setText("Das hast du sehr gut gemacht!");
+                    audioSource.PlayOneShot(DasHastDuGutGemacht);
+                    _currentGameStage = 9999;
+                    break;
+                case 9999:
+                    Application.Quit();
                     break;
                 default:
                     break;

@@ -13,21 +13,21 @@ public class Brettl : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("Zahlenwelten [Brettl]: OnTriggerEnter");
-        if (other.gameObject.CompareTag("numberBalloon") && IsActive)
+        if (other.gameObject.CompareTag("numberBalloon"))
         {
             NumberBalloon balloon = other.gameObject.GetComponent<NumberBalloon>();
 
-            if (this.ReferenceDigit == balloon.Value)
+            if (this.ReferenceDigit == balloon.Value && IsActive)
             {
-                //balloon.DisableGrab();
                 balloon.CorrectNumberEvent();
                 IsActive = false;
                 Correct = true;
             } else
             {
-                // why was this here?
+
                 balloon.WrongNumberEvent();
-                WrongTry = true;
+                if (IsActive)
+                    WrongTry = true;
             }
         }
     }
