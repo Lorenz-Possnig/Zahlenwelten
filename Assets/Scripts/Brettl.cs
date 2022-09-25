@@ -4,11 +4,11 @@ public class Brettl : MonoBehaviour
 {
     public byte ReferenceDigit { get; set; } = 0;
 
-    public bool IsActive { get; set; }
+    public bool IsActive = false;
 
-    public bool Correct { get; set; } = false;
+    public bool Correct = false;
 
-    public bool WrongTry { get; set; } = false;
+    public bool WrongTry = false;
 
     void OnTriggerEnter(Collider other)
     {
@@ -19,9 +19,13 @@ public class Brettl : MonoBehaviour
 
             if (this.ReferenceDigit == balloon.Value)
             {
+                //balloon.DisableGrab();
+                balloon.CorrectNumberEvent();
+                IsActive = false;
                 Correct = true;
             } else
             {
+                // why was this here?
                 balloon.WrongNumberEvent();
                 WrongTry = true;
             }

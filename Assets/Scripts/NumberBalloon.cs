@@ -38,9 +38,22 @@ public class NumberBalloon : MonoBehaviour
 
     private bool _placedCorrectly = false;
 
+    private bool _markedForDeletion = false;
+
+    public void MarkForDeletion()
+    {
+        _markedForDeletion = true;
+    }
+
+    public void DeleteIfMarked()
+    {
+        if (_markedForDeletion)
+            Destroy(this.transform.parent.gameObject);
+    }
+
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Zahlenwelten [NumberBalloon]: OnTriggerEnter");
+        /*Debug.Log("Zahlenwelten [NumberBalloon]: OnTriggerEnter");
         if (other.CompareTag("brettl"))
         {
             Brettl b = other.GetComponent<Brettl>();
@@ -55,7 +68,7 @@ public class NumberBalloon : MonoBehaviour
         {
             Debug.Log("Zahlenwelten [NumberBalloon]: Duplicate");
             //StartCoroutine(this.Duplicate());
-        }
+        }*/
     }
 
     public void OnTriggerExit(Collider other)
@@ -70,8 +83,8 @@ public class NumberBalloon : MonoBehaviour
         Debug.Log("Zahlenwelten [NumberBalloon]: Correct Number Event; Reference Number: " + Value);
         // snap into place here
         this._placedCorrectly = true;
-        this.GrabbableParent.gameObject.GetComponent<Grabbable>().enabled = false;
-        this.GrabbableParent.gameObject.GetComponent<HandGrabInteractable>().enabled = false;
+        DisableGrab();
+        MarkForDeletion();
         this.AudioSource.PlayOneShot(this.Success);
         DuplicateEvent.Invoke();
     }
@@ -82,7 +95,7 @@ public class NumberBalloon : MonoBehaviour
         DuplicateEvent.Invoke();
         this.AudioSource.PlayOneShot(this.Pop);
         
-        Destroy(this.transform.parent.gameObject, 0.023f); //destroy after 5 seconds
+        Destroy(this.transform.parent.gameObject, 0.023f);
     }
 
 
@@ -92,7 +105,16 @@ public class NumberBalloon : MonoBehaviour
             StartCoroutine(FloatAwayCoroutine());
     }
 
-    
+    private void SetGrabbable(bool b)
+    {
+        this.GrabbableParent.gameObject.GetComponent<Grabbable>().enabled = b;
+        this.GrabbableParent.gameObject.GetComponent<HandGrabInteractable>().enabled = b;
+    }
+
+    public void EnableGrab() => SetGrabbable(true);
+
+    public void DisableGrab() => SetGrabbable(false);
+
 
     private IEnumerator FloatAwayCoroutine()
     {

@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/mrtk_hand.unity
     guid: f1e2ed8ede3a23c4ab6da00cc901214d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Main Scene.unity
     guid: 625d398509db6e0469facd25bae3fa50
+  - enabled: 1
+    path: Assets/test.unity
+    guid: ec28b5e248e17e841a105acc0a9a159f
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 875f48323f2f3614d988b331b3817484, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c5554bdf89d23df489adf20ac47245f8, type: 2}

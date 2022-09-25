@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Duplicate : MonoBehaviour
 {
-    public Transform Handle;
-    public float offsetX = 0f;
-    public float offsetY = 0f;
-    public float offsetZ = 0f;
+    #region Fields
+
+    [SerializeField]
+    private Transform Handle;
+    [SerializeField]
+    private float offsetX = 0f;
+    [SerializeField]
+    private float offsetY = 0f;
+    [SerializeField]
+    private float offsetZ = 0f;
+    [SerializeField]
+    private float delay = 0f;
+
+    #endregion Fields
 
     private Quaternion startRotation;
     private Transform startParent;
@@ -53,10 +64,10 @@ public class Duplicate : MonoBehaviour
                 duplicate.transform.position = startPosition;
                 duplicate.transform.rotation = startRotation;
                 duplicate.transform.parent = startParent;
+                duplicate.GetComponentInChildren<NumberBalloon>(true)?.EnableGrab();
                 Debug.Log($"Zahlenwelten [Duplicate]: x: {duplicate.transform.position.x}, y: {duplicate.transform.position.y}, z: {duplicate.transform.position.z}");
             }
-            yield return null;
-            //yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(delay);
         }
     }
 
