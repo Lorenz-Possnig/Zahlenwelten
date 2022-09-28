@@ -1,57 +1,60 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
+/// <summary>
+/// Duplicate a grabbable number balloon
+/// </summary>
 public class Duplicate : MonoBehaviour
 {
     #region Fields
 
+    private static Vector3 VECTOR_50 =
+        new()
+        {
+                    x = 50,
+                    y = 50,
+                    z = 50
+        };
+
     [SerializeField]
-    private Transform Handle;
+    private Transform _handle;
     [SerializeField]
-    private float offsetX = 0f;
+    private float _offsetX = 0f;
     [SerializeField]
-    private float offsetY = 0f;
+    private float _offsetY = 0f;
     [SerializeField]
-    private float offsetZ = 0f;
+    private float _offsetZ = 0f;
     [SerializeField]
-    private float delay = 0f;
+    private float _delay = 0f;
+
+    private Quaternion _startRotation;
+    private Transform _startParent;
+    private Vector3 _startPosition;
+    private bool _hasBeenDuplicated = false;
 
     #endregion Fields
 
-    private Quaternion startRotation;
-    private Transform startParent;
-    private Vector3 startPosition;
-
-    private bool _hasBeenDuplicated = false;
-
-    private void Awake()
-    {
-        
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
-        startPosition = new Vector3(Handle.transform.position.x + offsetX,
-                                    Handle.transform.position.y + offsetY,
-                                    Handle.transform.position.z + offsetZ);
-        startRotation = transform.rotation;
-        startParent = transform.parent;
-        Debug.Log($"Zahlenwelten [Duplicate]: x: {startPosition.x}, y: {startPosition.y}, z: {startPosition.z}");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _startPosition = new Vector3
+        {
+            x = _handle.transform.position.x + _offsetX,
+            y = _handle.transform.position.y + _offsetY,
+            z = _handle.transform.position.z + _offsetZ
+        };
+        _startRotation = transform.rotation;
+        _startParent = transform.parent;
     }
 
     public void DoDuplicate()
     {
         StartCoroutine(DuplicateCoroutine());
     }
+
+    /// <summary>
+    /// Duplicate the grabbable after _delay seconds
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DuplicateCoroutine()
     {
         for (int i = 0; i < 2; i++)
@@ -60,14 +63,14 @@ public class Duplicate : MonoBehaviour
             {
                 _hasBeenDuplicated = true;
                 var duplicate = Instantiate(this);
-                duplicate.transform.localScale = new Vector3(50, 50, 50);
-                duplicate.transform.position = startPosition;
-                duplicate.transform.rotation = startRotation;
-                duplicate.transform.parent = startParent;
-                duplicate.GetComponentInChildren<NumberBalloon>(true)?.EnableGrab();
-                Debug.Log($"Zahlenwelten [Duplicate]: x: {duplicate.transform.position.x}, y: {duplicate.transform.position.y}, z: {duplicate.transform.position.z}");
+                var trans = duplicate.transform;
+                trans.localScale = VECTOR_50;
+                trans.position = _startPosition;
+                trans.rotation = _startRotation;
+                trans.parent = _startParent;
+                duplicate.GetComponentInChildren<NumberBalloon>(true).EnableGrab();
             }
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(_delay);
         }
     }
 

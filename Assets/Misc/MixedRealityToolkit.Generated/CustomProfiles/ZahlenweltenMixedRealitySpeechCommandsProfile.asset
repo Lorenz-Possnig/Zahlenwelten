@@ -18,50 +18,71 @@ MonoBehaviour:
   speechCommands:
   - localizationKey: 
     keyword: Toggle Profiler
-    keyCode: 57
+    keyCode: 273
     action:
       id: 15
       description: Toggle Profiler
       axisConstraint: 0
   - localizationKey: 
-    keyword: Wechsel Farbe
+    keyword: eins
+    keyCode: 257
+    action:
+      id: 0
+      description: Toggle Profiler
+      axisConstraint: 0
+  - localizationKey: 
+    keyword: zwei
     keyCode: 0
     action:
       id: 0
       description: Toggle Profiler
       axisConstraint: 0
   - localizationKey: 
-    keyword: Change Color
+    keyword: drei
     keyCode: 0
     action:
       id: 0
       description: Toggle Profiler
       axisConstraint: 0
   - localizationKey: 
-    keyword: zwai
+    keyword: vier
     keyCode: 0
     action:
       id: 0
       description: Toggle Profiler
       axisConstraint: 0
   - localizationKey: 
-    keyword: drrei
+    keyword: "f\xFCnf"
     keyCode: 0
     action:
       id: 0
       description: Toggle Profiler
       axisConstraint: 0
   - localizationKey: 
-    keyword: drei und zwanzig
+    keyword: sechs
     keyCode: 0
     action:
       id: 0
       description: Toggle Profiler
       axisConstraint: 0
   - localizationKey: 
-    keyword: dreiundzwanzig
+    keyword: sieben
     keyCode: 0
     action:
-      id: 15
+      id: 0
+      description: Toggle Profiler
+      axisConstraint: 0
+  - localizationKey: 
+    keyword: acht
+    keyCode: 0
+    action:
+      id: 0
+      description: Toggle Profiler
+      axisConstraint: 0
+  - localizationKey: 
+    keyword: neun
+    keyCode: 0
+    action:
+      id: 0
       description: Toggle Profiler
       axisConstraint: 0

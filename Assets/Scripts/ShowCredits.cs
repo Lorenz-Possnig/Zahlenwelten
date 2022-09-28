@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Enable/Disable the credits
+/// </summary>
 public class ShowCredits : MonoBehaviour
 {
-    //[SerializeField]
-    //private GameObject _credits;
-
     public void ToggleCredits(GameObject _credits)
     {
         if (!_credits.activeSelf)

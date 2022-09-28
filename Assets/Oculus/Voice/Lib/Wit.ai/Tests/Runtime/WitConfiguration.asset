@@ -13,48 +13,44 @@ MonoBehaviour:
   m_Name: WitConfiguration
   m_EditorClassIdentifier: 
   application:
-    witConfiguration: {fileID: 0}
-    name: twitchbot
-    id: 4278833692238969
-    lang: en
-    isPrivate: 1
-    createdAt: 2021-11-04T20:57:50-0700
+    witConfiguration: {fileID: 11400000}
+    name: zahlenwelten
+    id: 4938339572882442
+    lang: de
+    isPrivate: 0
+    createdAt: 2022-06-09T04:08:53-0700
   configId: 413524a3a94abf642a7a58362625c7f9
-  clientAccessToken: GVS6VJJNG24G4W2PW7DOORDHJNR353IG
+  clientAccessToken: WHT2I3E6ROCRA73GQSNH2CM322C3SAZL
   timeoutMS: 10000
   endpointConfiguration:
-    uriScheme: http
-    authority: localhost
-    port: 3000
+    uriScheme: https
+    authority: api.wit.ai
+    port: 443
     witApiVersion: 
     speech: 
     message: 
   entities:
   - witConfiguration: {fileID: 11400000}
-    id: 289574336354968
-    name: dance
-    lookups:
-    - free-text
-    - keywords
+    id: 57218985-f8e3-4a93-9368-3791a35ba2dc
+    name: wit$number
+    lookups: []
     roles:
-    - id: 
-      name: 
-    keywords:
-    - keyword: 3
-      synonyms:
-      - 3
-    - keyword: 5
-      synonyms:
-      - 5
+    - id: 974410656584789
+      name: number
+    keywords: []
   intents:
   - witConfiguration: {fileID: 11400000}
-    id: 982747715639145
-    name: dance
+    id: 806555116959153
+    name: getNumber
     entities:
     - witConfiguration: {fileID: 11400000}
-      id: 274206061356129
-      name: dance:dance
+      id: 974410656584789
+      name: wit$number:number
       lookups: []
       roles: []
       keywords: []
   traits: []
+  isDemoOnly: 0
+  manifestLocalPath: ConduitManifest-e8d8d415-6c99-4067-a185-dd4753dabcfd.json
+  autoGenerateManifest: 0
+  openManifestOnGeneration: 0

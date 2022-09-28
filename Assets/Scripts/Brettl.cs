@@ -3,28 +3,30 @@ using UnityEngine;
 public class Brettl : MonoBehaviour
 {
     public byte ReferenceDigit { get; set; } = 0;
-    public bool IsActive = false;
-    public bool Correct = false;
-    public bool WrongTry = false;
+    public bool IsActive { get; set; } = false;
+    public bool Correct { get; set; } = false;
+    public bool WrongTry { get; set; } = false;
 
     void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Zahlenwelten [Brettl]: OnTriggerEnter");
-        if (other.gameObject.CompareTag("numberBalloon"))
+        if (other.gameObject.CompareTag(Constants.NUMBER_BALOON_TAG))
         {
             NumberBalloon balloon = other.gameObject.GetComponent<NumberBalloon>();
 
-            if (this.ReferenceDigit == balloon.Value && IsActive)
+            if (IsActive)
             {
-                balloon.CorrectNumberEvent();
-                IsActive = false;
-                Correct = true;
-            } else
-            {
-
-                balloon.WrongNumberEvent();
-                if (IsActive)
-                    WrongTry = true;
+                if (ReferenceDigit == balloon.Value)
+                {
+                    balloon.CorrectNumberEvent();
+                    IsActive = false;
+                    Correct = true;
+                }
+                else
+                {
+                    balloon.WrongNumberEvent();
+                    if (IsActive)
+                        WrongTry = true;
+                }
             }
         }
     }

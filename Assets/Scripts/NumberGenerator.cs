@@ -4,37 +4,12 @@ using UnityEngine;
 
 public class NumberGenerator
 {
-    //private const Dictionary<int, string> numMapping = new Dictionary<int, string>{
-    //    1 : "eins",
-    //    2 : "zwai",
-    //    3 : "drrei",
-    //    4 : "fia",
-    //    5 : "fünf",
-    //    6 : "sechs",
-    //    7 : "sieben",
-    //    8 : "acht",
-    //    9 : "neun",
-    //};
-
-    /*
-     * 1.) Abhängig vom Level richtige Number generieren
-     * 2.) zu Voice recognizeable string machen
-    */ 
-
-    /*public static int GetRandom(int level)
-    {
-        Debug.Log($"Generating random number for level: {level}");
-        int number = Random.Range(1,10);      
-
-        if (level == 2)
-            number += Random.Range(1,10) * 10;
-
-        if (level == 3)
-            number += Random.Range(1, 10) * 100;
-
-        return number;
-    }*/
-
+    /// <summary>
+    /// Get a random number with the amount of digits specified by level
+    /// The retuned number will never include the digit 0
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
     public static int GetRandom(int level)
     {
         string number = "";
