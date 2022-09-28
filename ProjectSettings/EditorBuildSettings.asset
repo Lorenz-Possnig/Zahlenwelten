@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Scene.unity
     guid: 625d398509db6e0469facd25bae3fa50
   - enabled: 1
-    path: Assets/test.unity
+    path: Assets/Scenes/Zahlenwelten.unity
     guid: ec28b5e248e17e841a105acc0a9a159f
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 875f48323f2f3614d988b331b3817484, type: 2}

@@ -49,38 +49,11 @@ public class NumberBalloon : MonoBehaviour
     {
         if (_markedForDeletion)
             Destroy(this.transform.parent.gameObject);
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        /*Debug.Log("Zahlenwelten [NumberBalloon]: OnTriggerEnter");
-        if (other.CompareTag("brettl"))
-        {
-            Brettl b = other.GetComponent<Brettl>();
-            if (b.ReferenceDigit == Value)
-            {
-                this.CorrectNumberEvent();
-            } else
-            {
-                this.WrongNumberEvent();
-            }
-        } else if (other.CompareTag("hand"))
-        {
-            Debug.Log("Zahlenwelten [NumberBalloon]: Duplicate");
-            //StartCoroutine(this.Duplicate());
-        }*/
-    }
-
-    public void OnTriggerExit(Collider other)
-    {
-        Debug.Log("Zahlenwelten [NumberBalloon]: OnTriggerExit");
-        //this.LetGoEvent();
-    }
-    
+    }   
  
     public void CorrectNumberEvent()
     {
-        Debug.Log("Zahlenwelten [NumberBalloon]: Correct Number Event; Reference Number: " + Value);
+        //Debug.Log("Zahlenwelten [NumberBalloon]: Correct Number Event; Reference Number: " + Value);
         // snap into place here
         this._placedCorrectly = true;
         DisableGrab();
@@ -92,13 +65,12 @@ public class NumberBalloon : MonoBehaviour
 
     public void WrongNumberEvent()
     {
-        Debug.Log("Zahlenwelten [NumberBalloon]: Wrong Number Event Reference Number: " + Value);
+        //Debug.Log("Zahlenwelten [NumberBalloon]: Wrong Number Event Reference Number: " + Value);
         DuplicateEvent.Invoke();
         this.AudioSource.PlayOneShot(this.Pop);
         
         Destroy(this.transform.parent.gameObject, 0.023f);
     }
-
 
     public void LetGoEvent()
     {
@@ -115,7 +87,6 @@ public class NumberBalloon : MonoBehaviour
     public void EnableGrab() => SetGrabbable(true);
 
     public void DisableGrab() => SetGrabbable(false);
-
 
     private IEnumerator FloatAwayCoroutine()
     {
@@ -150,11 +121,6 @@ public class NumberBalloon : MonoBehaviour
         prevState = InteractableView.State;
     }
 
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
     void Update()
     {
         HandleGrabStateChange();
