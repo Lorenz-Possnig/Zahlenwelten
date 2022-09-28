@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class SimpleGameStateManager : MonoBehaviour
 {
+    #region Fields
     [SerializeField]
     private AudioSource audioSource;
 
@@ -37,14 +38,19 @@ public class SimpleGameStateManager : MonoBehaviour
 
     [SerializeField]
     private AudioClip DasHastDuGutGemacht;
+
     [SerializeField]
     private AudioClip WagenWirUnsAn;
+
     [SerializeField]
     private AudioClip ProbierenWirDieZahl;
+
     [SerializeField]
     private AudioClip MachenWirNochSoEineZahl;
+
     [SerializeField]
     private AudioClip WagenWirUnsAnDieGanzGrossen;
+    #endregion Fields
 
     public AudioClip[] Numbers;
 
@@ -58,44 +64,36 @@ public class SimpleGameStateManager : MonoBehaviour
     private bool _completedLevel2 = false;
     private byte _completedLevel3 = 0;
 
+    private bool _isWaiting = false;
+
     private void Awake()
     {
-        //loadAudioFromDisk();
         setupBrettln();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (!audioSource.isPlaying)
+        if (!audioSource.isPlaying && !_isWaiting)
         {
             switch (_currentGameStage)
             {
-                // greeting
-                case 0:
+                // Intro
+                case -1:
+                    _isWaiting = true;
+                    StartCoroutine(Wait(4));
+                    _currentGameStage = 0;
+                    break;
+                case 0: 
                     setText("Hallo! Ich zeige dir jetzt, wie du dich in unserer Zahlenwelt zurecht findest.");
                     audioSource.PlayOneShot(HalloIchZeigeDir);
                     _currentGameStage = 100;
                     break;
                 case 100:
                     setText("Wenn du nach links schaust, siehst du dort ein Regal aus Holz. Dort sind bunte Zahlenballone.");
-                    //audioSource.PlayOneShot(WennDuNachLinksSchaust);
                     _currentGameStage = 200;
                     break;
                 case 200:
                     setText("Mit denen kannst du dir Zahlen bauen, indem du die Ballons in der richtigen Reihenfolge auf die schwebenden Holzbretter in der Mitte ziehst.");
-                    //audioSource.PlayOneShot(MitDenenKannstDu);
-                    _currentGameStage = 300;
-                    break;
-                case 300:
-                    //unused
-                    //setText("Wenn du nach rechts schaust, siehst du dort ein Schreibbrett - da werden wir dann deine richtigen Zahlen hinschreiben!");
                     _currentGameStage = 400;
                     break;
                 // First Level
@@ -240,6 +238,18 @@ public class SimpleGameStateManager : MonoBehaviour
         }
     }
 
+    private IEnumerator Wait(float seconds)
+    {
+        for(int i = 0; i < 2; i++)
+        {
+            if(i == 0)
+            {
+                yield return new WaitForSeconds(seconds);
+            }
+            _isWaiting = false;
+            yield return null;
+        }
+    }
     private void waitForNumbers(int success, int fail)
     {
         var brettlState = checkBrettln();
@@ -252,7 +262,7 @@ public class SimpleGameStateManager : MonoBehaviour
                 _currentGameStage = success;
                 break;
             case BrettlState.EMPTY:
-                Debug.Log("Zahlenwelten [SimpleGameStateManager]: Brettln are empty");
+                //Debug.Log("Zahlenwelten [SimpleGameStateManager]: Brettln are empty");
                 break;
         }
     }
@@ -279,10 +289,16 @@ public class SimpleGameStateManager : MonoBehaviour
         {
             brettl.WrongTry = false;
             brettl.Correct = false;
+            //foreach(Transform child in brettl.transform) --> not working, left for future reference
+            //{
+            //    Destroy(child.gameObject);
+            //}
         }
         foreach (var balloon in
             GameObject.FindGameObjectsWithTag("numberBalloon"))
+        {
             balloon.GetComponent<NumberBalloon>().DeleteIfMarked();
+        }
     }
 
     private void setText(string text)
@@ -310,7 +326,7 @@ public class SimpleGameStateManager : MonoBehaviour
 
     private void setupBrettln()
     {
-        Debug.Log("Zahlenwelten [GameStateManager]: Brettln Setup");
+        //Debug.Log("Zahlenwelten [GameStateManager]: Brettln Setup");
         int level = _brettln.Where(b => b.gameObject.activeSelf).Count();
         _currentNumber = NumberGenerator.GetRandom(level);
         byte[] digits = _currentNumber
@@ -322,6 +338,5 @@ public class SimpleGameStateManager : MonoBehaviour
 
         for (int i = 0; i < level; i++)
             _brettln[i].ReferenceDigit = digits[i];
-
     }
 }

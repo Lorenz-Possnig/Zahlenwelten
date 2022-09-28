@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/mrtk_hand.unity
+    path: Assets/Misc/mrtk_hand.unity
     guid: f1e2ed8ede3a23c4ab6da00cc901214d
   - enabled: 0
     path: Assets/Scenes/Main Scene.unity

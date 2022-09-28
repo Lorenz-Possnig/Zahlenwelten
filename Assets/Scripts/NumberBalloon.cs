@@ -87,6 +87,7 @@ public class NumberBalloon : MonoBehaviour
         MarkForDeletion();
         this.AudioSource.PlayOneShot(this.Success);
         DuplicateEvent.Invoke();
+        //transform.SetParent(t, true);
     }
 
     public void WrongNumberEvent()
