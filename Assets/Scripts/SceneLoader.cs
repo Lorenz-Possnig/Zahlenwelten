@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    [SerializeField]
+    private OVRScreenFade _screenFade;
 
     private IEnumerator LoadSceneAsync(string sceneToLoad)
     {
@@ -17,6 +19,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene(string sceneToLoad)
     {
+        _screenFade.FadeOut();
         StartCoroutine(LoadSceneAsync(sceneToLoad));
     }
 }
