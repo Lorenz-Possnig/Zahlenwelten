@@ -32,6 +32,8 @@ public class NumberBalloon : MonoBehaviour
     [SerializeField]
     private float _floatSpeed;
 
+    public Brettl Brettl { get; set; }
+
     #endregion Fields
 
     public UnityEvent DuplicateEvent;
@@ -59,6 +61,9 @@ public class NumberBalloon : MonoBehaviour
     public void CorrectNumberEvent()
     {
         this._placedCorrectly = true;
+        Brettl.EmitSuccess(GetComponent<Renderer>().material.color);
+        Brettl.IsActive = false;
+        Brettl.Correct = true;
         DisableGrab();
         MarkForDeletion();
         this._audioSource.PlayOneShot(_successSound);
@@ -85,8 +90,13 @@ public class NumberBalloon : MonoBehaviour
     /// </summary>
     public void LetGoEvent()
     {
-        if (!_placedCorrectly)
+        if (Brettl != null)
+        {
+            CorrectNumberEvent();
+        } else
+        {
             StartCoroutine(FloatAwayCoroutine());
+        }
     }
 
     #endregion Events
@@ -150,6 +160,11 @@ public class NumberBalloon : MonoBehaviour
 
         Destroy(transform.parent.gameObject, 0.023f);
         yield return null;
+    }
+
+    private IEnumerator Burst()
+    {
+        yield return new WaitForEndOfFrame();
     }
 
     /// <summary>

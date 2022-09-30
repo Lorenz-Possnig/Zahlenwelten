@@ -7,6 +7,12 @@ public class Brettl : MonoBehaviour
     public bool Correct { get; set; } = false;
     public bool WrongTry { get; set; } = false;
 
+    [SerializeField]
+    private ParticleSystem _psSuccess;
+
+    [SerializeField]
+    private ParticleSystem _psFail;
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag(Constants.NUMBER_BALOON_TAG))
@@ -15,14 +21,18 @@ public class Brettl : MonoBehaviour
 
             if (IsActive)
             {
+                var color = other.GetComponent<Renderer>().material.color;
                 if (ReferenceDigit == balloon.Value)
                 {
-                    balloon.CorrectNumberEvent();
-                    IsActive = false;
-                    Correct = true;
+                    //EmitSuccess(color);
+                    //balloon.CorrectNumberEvent();
+                    balloon.Brettl = this;
+                    //IsActive = false;
+                    //Correct = true;
                 }
                 else
                 {
+                    EmitFailure(color);
                     balloon.WrongNumberEvent();
                     if (IsActive)
                         WrongTry = true;
@@ -30,4 +40,15 @@ public class Brettl : MonoBehaviour
             }
         }
     }
+
+    void Emit(ParticleSystem ps, Color color, int amount)
+    {
+        ps.startColor = color;
+        ps.Emit(amount);
+    }
+
+    public void EmitSuccess(Color color) => Emit(_psSuccess, color, 100);
+
+    public void EmitFailure(Color color) => Emit(_psFail, color, 100);
+
 }

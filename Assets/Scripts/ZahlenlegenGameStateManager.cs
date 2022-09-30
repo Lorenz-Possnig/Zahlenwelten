@@ -38,6 +38,9 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
 
     public Brettl[] _brettln;
 
+    [SerializeField]
+    private DoorManager _doorManager;
+
 
     protected override void Awake()
     {
@@ -75,6 +78,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                 case 100:
                     SetText("Wenn du nach links schaust, siehst du dort ein Regal aus Holz. Dort sind bunte Zahlenballone.");
                     _audioSource.PlayOneShot(WennDuNachLinksSchaust);
+                    _doorManager.Open();
                     _currentGameStage = 200;
                     break;
                 case 200:
@@ -121,6 +125,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                 case 700:
                     SetText("Das hast du gut gemacht!");
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
+                    _doorManager.Close();
                     EnableBrettl(1);
                     ResetBrettl();
                     SetupBrettln();
@@ -135,6 +140,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     _currentGameStage = 900;
                     break;
                 case 900:
+                    _doorManager.Open();
                     SetText($"Probieren wir die Zahl:");
                     _audioSource.PlayOneShot(ProbierenWirDieZahl);
                     _currentGameStage = 910;
@@ -159,6 +165,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     break;
                 case 1100:
                     SetText("Das hast du gut gemacht");
+                    _doorManager.Close();
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
                     setBrettlnInactive();
                     _currentGameStage = _completedLevel2 ? 1300 : 1200;
@@ -189,6 +196,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     _currentGameStage = 1420;
                     break;
                 case 1420:
+                    _doorManager.Open();
                     setBrettlnActive();
                     _currentGameStage = 1500;
                     break;
@@ -199,11 +207,13 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     SetText("Probieren wir es noch einmal");
                     _audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
                     ResetBrettl();
+                    _doorManager.Close();
                     setBrettlnInactive();
                     _currentGameStage = 1410;
                     break;
                 case 1600:
                     setBrettlnInactive();
+                    _doorManager.Close();
                     SetText("Gut gemacht!");
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
                     _completedLevel3++;
@@ -263,12 +273,18 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
     /// <summary>
     /// Activate the brettl script on all currently active brettln in array _brettln
     /// </summary>
-    private void setBrettlnActive() => SetBrettlnActiveState(true);
+    private void setBrettlnActive()
+    {
+        SetBrettlnActiveState(true);
+    }
 
     /// <summary>
     /// Deactivate the brettl script on all currently active brettln in array _brettln
     /// </summary>
-    private void setBrettlnInactive() => SetBrettlnActiveState(false);
+    private void setBrettlnInactive()
+    {
+        SetBrettlnActiveState(false);
+    }
 
     /// <summary>
     /// Activate _brettln[index] in hierarchy

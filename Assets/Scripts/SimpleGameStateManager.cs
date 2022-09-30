@@ -39,7 +39,7 @@ public class SimpleGameStateManager : MonoBehaviour
 
     #endregion AudioClips
 
-    protected int _currentGameStage = -1;
+    protected int _currentGameStage = -1; // DEBUG: default -1, zahlenlegen: 400
     protected bool _isWaiting = false;
     protected int _currentNumber;
 
