@@ -8,14 +8,8 @@ public class Duplicate : MonoBehaviour
 {
     #region Fields
 
-    private static Vector3 VECTOR_50 =
-        new()
-        {
-                    x = 50,
-                    y = 50,
-                    z = 50
-        };
-
+    private static Vector3 VECTOR_50 = new Vector3(50, 50, 50);
+        
     [SerializeField]
     private Transform _handle;
     [SerializeField]
