@@ -348,12 +348,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
         //Debug.Log("Zahlenwelten [GameStateManager]: Brettln Setup");
         int level = _brettln.Where(b => b.gameObject.activeSelf).Count();
         _currentNumber = NumberGenerator.GetRandom(level);
-        byte[] digits = _currentNumber
-            .ToString()
-            .ToCharArray()
-            .Select(x => x.ToString())
-            .Select(byte.Parse)
-            .ToArray();
+        byte[] digits = IntToDigits(_currentNumber);
 
         for (int i = 0; i < level; i++)
             _brettln[i].ReferenceDigit = digits[i];

@@ -16,6 +16,9 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
     [SerializeField]
     private AudioClip DannSprichDieZahlLaut;
 
+    public GameObject RecordingSphere;
+
+    public NumberSpawner Spawner;
 
     private int _recognizedNumber = 0;
 
@@ -41,8 +44,22 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
             {
                 case -1:
                     SetText("");
-                    StartCoroutine(Wait(4));
-                    _currentGameStage = 100;
+                    if (Application.internetReachability == NetworkReachability.NotReachable)
+                    {
+                        _currentGameStage = 10;
+                    } else
+                    {
+                        StartCoroutine(Wait(4));
+                        _currentGameStage = 100;
+                    }
+                    break;
+                case 10:
+                    SetText("Irgendetwas funktioniert hier gerade nicht. Bitte hole deinen Betreuer");
+                    _currentGameStage = 11;
+                    break;
+                case 11:
+                    //SceneManager.LoadScene("Menu");
+                    GetComponent<SceneLoader>().LoadScene("Menu");
                     break;
                 case 100:
                     SetText("Hallo! Ich werde dir jetzt eine Zahl hinschreiben");
@@ -58,20 +75,25 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                 // Level 1
                 case 300:
                     SetText($"{_currentNumber}");
+                    spawnNumbers(_currentNumber);
                     _currentGameStage = 400;
                     break;
                 case 400:
-                    WaitForUtterance(500, 420);
+                    WaitForUtterance(500, 420, 410);
+                    break;
+                case 410:
+                    SetText("Das habe ich leider nicht verstanden. Bitte versuche es noch einmal");
+                    _currentGameStage = 300;
                     break;
                 case 420:
-                    ResetWit();
                     SetText("Probieren wir es noch einmal");
                     _audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
+                    ResetStage();
                     _currentGameStage = 300;
                     break;
                 case 500:
-                    ResetWit();
                     SetText("Das hast du gut gemacht");
+                    ResetStage();
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
                     _currentGameStage = 600;
                     break;
@@ -84,19 +106,24 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                     break;
                 case 700:
                     SetText($"{_currentNumber}");
+                    spawnNumbers(_currentNumber);
                     _currentGameStage = 800;
                     break;
                 case 800:
-                    WaitForUtterance(900, 810);
+                    WaitForUtterance(900, 820, 810);
                     break;
                 case 810:
-                    ResetWit();
+                    SetText("Das habe ich leider nicht verstanden. Bitte versuche es noch einmal");
+                    _currentGameStage = 700;
+                    break;
+                case 820:
                     SetText("Probieren wir es noch einmal");
+                    ResetStage();
                     _audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
                     _currentGameStage = 700;
                     break;
                 case 900:
-                    ResetWit();
+                    ResetStage();
                     SetText("Das hast du gut gemacht");
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
                     _currentGameStage = _completedLevel2 ? 1000 : 910;
@@ -117,33 +144,38 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                     break;
                 case 1100:
                     SetText($"{_currentNumber}");
+                    spawnNumbers(_currentNumber);
                     _currentGameStage = 1200;
                     break;
                 case 1200:
-                    WaitForUtterance(1300, 1210);
+                    WaitForUtterance(1300, 1220, 1210);
                     break;
                 case 1210:
-                    ResetWit();
+                    SetText("Das habe ich leider nicht verstanden. Bitte versuche es noch einmal");
+                    _currentGameStage = 1100;
+                    break;
+                case 1220:
                     SetText("Probieren wir es noch einmal");
+                    ResetStage();
                     _audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
                     _currentGameStage = 1100;
                     break;
                 case 1300:
-                    ResetWit();
                     SetText("Das hast du gut gemacht!");
+                    ResetStage();
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
                     _currentGameStage = _completedLevel3 >= 3 ? 9999 : 1310;
                     break;
                 case 1310:
                     SetText("Machen wir noch so eine Zahl");
-                    ResetWit();
                     _audioSource.PlayOneShot(MachenWirNochSoEineZahl);
                     _completedLevel3++;
                     _currentNumber = NumberGenerator.GetRandom(3);
                     _currentGameStage = 1100;
                     break;
                 case 9999:
-                    SceneManager.LoadSceneAsync("Menu");
+                    //SceneManager.LoadSceneAsync("Menu");
+                    GetComponent<SceneLoader>().LoadScene("Menu");
                     break;
                 default:
                     break;
@@ -159,22 +191,63 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
         }
     }
 
-    public void OnStopListening()
-    {
-        ResetWit();
-    }
+    private void spawnNumbers(int number) => Spawner.SpawnNumber(IntToDigits(number));
 
-    private void ResetWit()
+    private void ResetStage()
     {
-        _wit.Deactivate();
-        _isListening = false;
+        Spawner.DespawnNumbers();
         _recognizedNumber = 0;
     }
 
-    private void WaitForUtterance(int success, int failure)
-    {
+    // to catch the events invoked by WIT
+    public bool GotResponse { get; set; }
+    public bool GotError { get; set; }
+    public bool GotAborting { get; set; }
+    public bool GotAborted { get; set; }
+    public bool GotRequestCompleted { get; set; }
 
-        if (!_isListening)
+    private void WaitForUtterance(int success, int failure, int notRecognized)
+    {
+        if (GotError)
+        {
+            SetText("Error");
+            GotError = false;
+            return; 
+        }
+
+        if (GotAborting)
+        {
+            SetText("Aborting");
+            GotAborting = false;
+            return;
+        }
+
+        if (GotAborted)
+        {
+            SetText("Aborted");
+            GotAborted = false;
+            return;
+        }
+
+        if (GotRequestCompleted) // this means a request was completed
+        {
+            SetText("Request Completed");
+            if (_recognizedNumber != 0 && _recognizedNumber == _currentNumber)
+            {
+                _currentGameStage = success;
+            }
+            else if (_recognizedNumber != 0 && _recognizedNumber != _currentNumber)
+            {
+                _currentGameStage = failure;
+            } else
+            {
+                _currentGameStage = notRecognized; // in any other case what was said was not a recognizable number (e.g. hello)
+            }
+            GotRequestCompleted = false;
+            return;
+        }
+
+        /*if (!_isListening)
         {
             Debug.Log("Zahlenwelten: Start Listening");
             _wit.Activate();
@@ -197,6 +270,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
         {
             _currentGameStage = failure;
             ResetWit();
-        }
+        }*/
     }
+
 }

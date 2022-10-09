@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -113,4 +114,11 @@ public class SimpleGameStateManager : MonoBehaviour
             yield return null;
         }
     }
+
+    protected byte[] IntToDigits(int digit) => digit
+            .ToString()
+            .ToCharArray()
+            .Select(char.ToString)
+            .Select(byte.Parse)
+            .ToArray();
 }

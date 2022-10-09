@@ -23,6 +23,8 @@ public class ButtonVR : MonoBehaviour
     private AudioSource _sound;
     private bool _isPressed;
 
+    public bool IsActive { get; set; } = true;
+
     void Start()
     {
         _sound = GetComponent<AudioSource>();
@@ -32,9 +34,9 @@ public class ButtonVR : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!_isPressed)
+        if (!_isPressed && IsActive)
         {
-            _button.transform.localPosition = new Vector3 { x = 0, y = _originY - _pressDepth, z = 0 };
+            _button.transform.localPosition = new Vector3(0, _originY - _pressDepth, 0);
             _presser = other.gameObject;
             _onPress.Invoke();
             _sound.Play();
@@ -46,17 +48,9 @@ public class ButtonVR : MonoBehaviour
     {
         if (other.gameObject == _presser)
         {
-            _button.transform.localPosition = new Vector3 { x = 0, y = _originY, z = 0 };
+            _button.transform.localPosition = new Vector3(0, _originY, 0);
             _onRelease.Invoke();
             _isPressed = false;
         }
     }
-
-    public void Test()
-    {
-        GameObject test = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        test.transform.localScale = new Vector3 { x = 0.5f, y = 0.5f, z = 0.5f };
-        test.AddComponent<Rigidbody>();
-    }
-
 }
