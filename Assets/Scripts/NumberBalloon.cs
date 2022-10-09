@@ -77,9 +77,9 @@ public class NumberBalloon : MonoBehaviour
     /// </summary>
     public void WrongNumberEvent()
     {
+        DuplicateEvent.Invoke();
         if (!_placedCorrectly)
         {
-            DuplicateEvent.Invoke();
             _audioSource.PlayOneShot(_failureSound);
             Destroy(transform.parent.gameObject, 0.023f);
         }

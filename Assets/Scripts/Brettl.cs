@@ -43,12 +43,13 @@ public class Brettl : MonoBehaviour
 
     void Emit(ParticleSystem ps, Color color, int amount)
     {
-        ps.startColor = color;
+        //ps.startColor = color;
+        ps.GetComponent<Renderer>().material.color = color;
         ps.Emit(amount);
     }
 
     public void EmitSuccess(Color color) => Emit(_psSuccess, color, 100);
 
-    public void EmitFailure(Color color) => Emit(_psFail, color, 100);
+    public void EmitFailure(Color color) => Emit(_psFail, color, 50);
 
 }
