@@ -16,6 +16,15 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
     [SerializeField]
     private AudioClip DannSprichDieZahlLaut;
 
+    [SerializeField]
+    private AudioClip LeiderNichtVerstanden;
+
+    [SerializeField]
+    private AudioClip NoInternetConnection;
+
+    [SerializeField]
+    private AudioClip ZahlenSagenIntro;
+
     public GameObject RecordingSphere;
 
     public NumberSpawner Spawner;
@@ -55,6 +64,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                     break;
                 case 10:
                     SetText("Irgendetwas funktioniert hier gerade nicht. Bitte hole deinen Betreuer");
+                    _audioSource.PlayOneShot(NoInternetConnection);
                     _currentGameStage = 11;
                     break;
                 case 11:
@@ -62,13 +72,11 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                     GetComponent<SceneLoader>().LoadScene("Menu");
                     break;
                 case 100:
-                    SetText("Hallo! Ich werde dir jetzt eine Zahl hinschreiben");
-                    _audioSource.PlayOneShot(IchWerdeDirJetztEineZahlHinschreiben);
+                    SetText("Hallo! Ich werde gleich vor dir Zahlen erscheinen lassen. Wenn du deine Hand auf die Zauberkugel vor dir legst, wird diese rot und ich höre dich. Bitte sprich dann die Zahl, die du vor dir siehst, laut und deutlich aus");
+                    _audioSource.PlayOneShot(ZahlenSagenIntro);
                     _currentGameStage = 200;
                     break;
                 case 200:
-                    SetText("Dann sprich die Zahl bitte laut und deutlich aus");
-                    _audioSource.PlayOneShot(DannSprichDieZahlLaut);
                     _currentNumber = NumberGenerator.GetRandom(1);
                     _currentGameStage = 300;
                     break;
@@ -83,6 +91,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                     break;
                 case 410:
                     SetText("Das habe ich leider nicht verstanden. Bitte versuche es noch einmal");
+                    _audioSource.PlayOneShot(LeiderNichtVerstanden);
                     _currentGameStage = 300;
                     break;
                 case 420:
@@ -114,6 +123,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                     break;
                 case 810:
                     SetText("Das habe ich leider nicht verstanden. Bitte versuche es noch einmal");
+                    _audioSource.PlayOneShot(LeiderNichtVerstanden);
                     _currentGameStage = 700;
                     break;
                 case 820:
@@ -152,6 +162,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                     break;
                 case 1210:
                     SetText("Das habe ich leider nicht verstanden. Bitte versuche es noch einmal");
+                    _audioSource.PlayOneShot(LeiderNichtVerstanden);
                     _currentGameStage = 1100;
                     break;
                 case 1220:

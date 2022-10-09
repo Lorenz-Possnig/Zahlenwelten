@@ -8,6 +8,9 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]
     private OVRScreenFade _screenFade;
 
+    [SerializeField]
+    private AudioClip Welcome;
+
     private AudioSource _audioSource;
 
     public AudioClip Bauen;
@@ -17,6 +20,7 @@ public class SceneLoader : MonoBehaviour
     private void Start()
     {
         _audioSource = gameObject.AddComponent(typeof(AudioSource)) as AudioSource;
+        _audioSource.PlayOneShot(Welcome);
     }
 
     private IEnumerator LoadSceneAsync(string sceneToLoad, AudioClip clip)
