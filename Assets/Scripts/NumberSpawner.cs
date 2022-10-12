@@ -30,6 +30,10 @@ public class NumberSpawner : MonoBehaviour
         {
             DestroyImmediate(go);
         }
+        foreach (var ps in particles)
+        {
+            ps.Emit(10);
+        }
     }
 
     public void SpawnNumber(byte[] digits)

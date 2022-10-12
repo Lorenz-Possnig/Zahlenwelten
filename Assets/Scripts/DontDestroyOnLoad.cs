@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class DontDestroyOnLoad : MonoBehaviour
 {
+
+    private static DontDestroyOnLoad instance;
+
     void Awake()
     {
-        var other = GameObject.FindGameObjectsWithTag("music");
-        if (other.Length > 1)
+        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        } else
         {
             Destroy(this);
         }
-        DontDestroyOnLoad(gameObject);
     }
 }

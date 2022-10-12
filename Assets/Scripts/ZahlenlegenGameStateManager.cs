@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -55,6 +56,11 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
     }
 
 
+    private Coroutine _coroutine;
+    private const int SecondsLevel1 = 4;
+    private const int SecondsLevel2 = 6;
+    private const int SecondsLevel3 = 10;
+
     protected override void Update()
     {
         base.Update();
@@ -110,11 +116,13 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     _currentGameStage = 510;
                     break;
                 case 510:
-                    setBrettlnActive();
+                    SetBrettlnActive();
                     ResetBrettl();
+                    _coroutine = StartCoroutine(RepeatNumberAfterSeconds(SecondsLevel1));
                     _currentGameStage = 600;
                     break;
                 case 520:
+                    StopCoroutine(_coroutine);
                     SetText("Probieren wir es noch einmal.");
                     _audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
                     _currentGameStage = 500;
@@ -123,13 +131,14 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     WaitForNumbers(700, 520);
                     break;
                 case 700:
+                    StopCoroutine(_coroutine);
                     SetText("Das hast du gut gemacht!");
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
                     _doorManager.Close();
                     EnableBrettl(1);
                     ResetBrettl();
                     SetupBrettln();
-                    setBrettlnInactive();
+                    SetBrettlnInactive();
                     _currentGameStage = 800;
                     break;
                 // Second Level
@@ -150,24 +159,27 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     _currentGameStage = 920;
                     break;
                 case 920:
-                    setBrettlnActive();
+                    SetBrettlnActive();
+                    _coroutine = StartCoroutine(RepeatNumberAfterSeconds(SecondsLevel2));
                     _currentGameStage = 1000;
                     break;
                 case 1000:
                     WaitForNumbers(1100, 1010);
                     break;
                 case 1010:
-                    setBrettlnInactive();
+                    SetBrettlnInactive();
                     SetText("Probieren wir es nocheinmal");
+                    StopCoroutine(_coroutine);
                     _audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
                     ResetBrettl();
                     _currentGameStage = 900;
                     break;
                 case 1100:
                     SetText("Das hast du gut gemacht");
+                    StopCoroutine(_coroutine);
                     _doorManager.Close();
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
-                    setBrettlnInactive();
+                    SetBrettlnInactive();
                     _currentGameStage = _completedLevel2 ? 1300 : 1200;
                     break;
                 case 1200:
@@ -197,7 +209,8 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     break;
                 case 1420:
                     _doorManager.Open();
-                    setBrettlnActive();
+                    SetBrettlnActive();
+                    _coroutine = StartCoroutine(RepeatNumberAfterSeconds(SecondsLevel3));
                     _currentGameStage = 1500;
                     break;
                 case 1500:
@@ -205,14 +218,16 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     break;
                 case 1510:
                     SetText("Probieren wir es noch einmal");
+                    StopCoroutine(_coroutine);
                     _audioSource.PlayOneShot(ProbierenWirEsNochEinmal);
                     ResetBrettl();
                     _doorManager.Close();
-                    setBrettlnInactive();
+                    SetBrettlnInactive();
                     _currentGameStage = 1410;
                     break;
                 case 1600:
-                    setBrettlnInactive();
+                    SetBrettlnInactive();
+                    StopCoroutine(_coroutine);
                     _doorManager.Close();
                     SetText("Gut gemacht!");
                     _audioSource.PlayOneShot(DasHastDuGutGemacht);
@@ -237,6 +252,20 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
     }
 
     #region PrivateMethods
+
+    private IEnumerator RepeatNumberAfterSeconds(int seconds)
+    {
+        for(int i = 1; ; i++)
+        {
+            if (i % 2 == 0)
+            {
+                _audioSource.PlayOneShot(Numbers[_currentNumber]);
+            } else
+            {
+                yield return new WaitForSeconds(seconds);
+            }
+        }
+    }
 
     /// <summary>
     /// Wait for the user to place all digits correctly
@@ -273,7 +302,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
     /// <summary>
     /// Activate the brettl script on all currently active brettln in array _brettln
     /// </summary>
-    private void setBrettlnActive()
+    private void SetBrettlnActive()
     {
         SetBrettlnActiveState(true);
     }
@@ -281,7 +310,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
     /// <summary>
     /// Deactivate the brettl script on all currently active brettln in array _brettln
     /// </summary>
-    private void setBrettlnInactive()
+    private void SetBrettlnInactive()
     {
         SetBrettlnActiveState(false);
     }

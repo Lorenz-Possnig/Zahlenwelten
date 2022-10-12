@@ -48,6 +48,8 @@ public class NumberBalloon : MonoBehaviour
 
     private bool _markedForDeletion = false;
 
+    public Duplicate _duplicate { get; set; } = null;
+
     #region Events
 
     /// <summary>
@@ -56,10 +58,10 @@ public class NumberBalloon : MonoBehaviour
     /// Make it unable to be grabbed
     /// Mark for deletion
     /// Play success sound
-    /// Duplicate at original position
     /// </summary>
     public void CorrectNumberEvent()
     {
+        DuplicateEvent.Invoke();
         this._placedCorrectly = true;
         Brettl.EmitSuccess(GetComponent<Renderer>().material.color);
         Brettl.IsActive = false;
@@ -67,7 +69,25 @@ public class NumberBalloon : MonoBehaviour
         DisableGrab();
         MarkForDeletion();
         this._audioSource.PlayOneShot(_successSound);
-        DuplicateEvent.Invoke();
+    }
+
+
+    private void Destroy()
+    {
+        StartCoroutine(DestroyAfterDuplication());
+    }
+
+    private IEnumerator DestroyAfterDuplication()
+    {
+        while (_duplicate == null)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        /*while (!_duplicate.isActiveAndEnabled)
+        {
+            yield return new WaitForEndOfFrame();
+        }*/
+        Destroy(_grabbableParent.gameObject);
     }
 
     /// <summary>
@@ -77,12 +97,17 @@ public class NumberBalloon : MonoBehaviour
     /// </summary>
     public void WrongNumberEvent()
     {
+        _audioSource.PlayOneShot(_failureSound);
         DuplicateEvent.Invoke();
-        if (!_placedCorrectly)
+        DisableGrab();
+        Destroy();
+        /*if (!_placedCorrectly)
         {
             _audioSource.PlayOneShot(_failureSound);
-            Destroy(transform.parent.gameObject, 0.023f);
-        }
+            //Destroy(gameObject);
+            //Destroy(_grabbableParent.gameObject);
+            Destroy();
+        }*/
     }
 
     /// <summary>
@@ -95,6 +120,7 @@ public class NumberBalloon : MonoBehaviour
             CorrectNumberEvent();
         } else
         {
+            DuplicateEvent.Invoke();
             StartCoroutine(FloatAwayCoroutine());
         }
     }
@@ -117,7 +143,9 @@ public class NumberBalloon : MonoBehaviour
     public void DeleteIfMarked()
     {
         if (_markedForDeletion)
-            Destroy(this.transform.parent.gameObject);
+            Destroy();
+                //Destroy(_grabbableParent.gameObject);
+                //Destroy(this.transform.parent.gameObject);
     }
 
     #endregion PublicMethods
@@ -151,20 +179,16 @@ public class NumberBalloon : MonoBehaviour
     private IEnumerator FloatAwayCoroutine()
     {
         float inTime = 5f;
-
         for (float t = 0.06f; t >= 0; t += Time.deltaTime / inTime)
         {
             transform.position += Vector3.up * _floatSpeed;
             yield return null;
         }
 
-        Destroy(transform.parent.gameObject, 0.023f);
+        //Destroy(transform.parent.gameObject);
+        //Destroy(_grabbableParent.gameObject);
+        Destroy();
         yield return null;
-    }
-
-    private IEnumerator Burst()
-    {
-        yield return new WaitForEndOfFrame();
     }
 
     /// <summary>

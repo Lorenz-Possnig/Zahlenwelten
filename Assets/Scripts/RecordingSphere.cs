@@ -10,7 +10,7 @@ public class RecordingSphere : MonoBehaviour
     public Material Transparent;
     private Renderer _renderer;
     private bool _isTouched = false;
-    private AudioSource _backgroundMusic;
+    public AudioSource _backgroundMusic;
 
     public AppVoiceExperience wit;
 
@@ -18,7 +18,6 @@ public class RecordingSphere : MonoBehaviour
     void Start()
     {
         _renderer = GetComponent<Renderer>();
-        _backgroundMusic = GameObject.Find("/GlobalAudioSource").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

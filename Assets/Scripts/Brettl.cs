@@ -24,11 +24,7 @@ public class Brettl : MonoBehaviour
                 var color = other.GetComponent<Renderer>().material.color;
                 if (ReferenceDigit == balloon.Value)
                 {
-                    //EmitSuccess(color);
-                    //balloon.CorrectNumberEvent();
                     balloon.Brettl = this;
-                    //IsActive = false;
-                    //Correct = true;
                 }
                 else
                 {
@@ -43,7 +39,7 @@ public class Brettl : MonoBehaviour
 
     void Emit(ParticleSystem ps, Color color, int amount)
     {
-        //ps.startColor = color;
+        ps.startColor = color;
         ps.GetComponent<Renderer>().material.color = color;
         ps.Emit(amount);
     }

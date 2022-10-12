@@ -42,29 +42,18 @@ public class Duplicate : MonoBehaviour
 
     public void DoDuplicate()
     {
-        StartCoroutine(DuplicateCoroutine());
-    }
-
-    /// <summary>
-    /// Duplicate the grabbable after _delay seconds
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator DuplicateCoroutine()
-    {
-        for (int i = 0; i < 2; i++)
+        if (!_hasBeenDuplicated)
         {
-            if (i == 1 && !_hasBeenDuplicated)
-            {
-                _hasBeenDuplicated = true;
-                var duplicate = Instantiate(this);
-                var trans = duplicate.transform;
-                trans.localScale = VECTOR_50;
-                trans.position = _startPosition;
-                trans.rotation = _startRotation;
-                trans.parent = _startParent;
-                duplicate.GetComponentInChildren<NumberBalloon>(true).EnableGrab();
-            }
-            yield return new WaitForSeconds(_delay);
+            _hasBeenDuplicated = true;
+            var duplicate = Instantiate(this);
+            var trans = duplicate.transform;
+            trans.localScale = VECTOR_50;
+            trans.position = _startPosition;
+            trans.rotation = _startRotation;
+            trans.parent = _startParent;
+            var numberBalloon = duplicate.GetComponentInChildren<NumberBalloon>(true);
+            numberBalloon.EnableGrab();
+            this.GetComponentInChildren<NumberBalloon>(true)._duplicate = this;
         }
     }
 

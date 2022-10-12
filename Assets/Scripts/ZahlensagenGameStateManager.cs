@@ -62,14 +62,9 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                         _currentGameStage = 100;
                     }
                     break;
-                case 10:
-                    SetText("Irgendetwas funktioniert hier gerade nicht. Bitte hole deinen Betreuer");
+                case 10: // Technical Problems
+                    //SetText("Irgendetwas funktioniert hier gerade nicht. Bitte hole deinen Betreuer");
                     _audioSource.PlayOneShot(NoInternetConnection);
-                    _currentGameStage = 11;
-                    break;
-                case 11:
-                    //SceneManager.LoadScene("Menu");
-                    GetComponent<SceneLoader>().LoadScene("Menu");
                     break;
                 case 100:
                     SetText("Hallo! Ich werde gleich vor dir Zahlen erscheinen lassen. Wenn du deine Hand auf die Zauberkugel vor dir legst, wird diese rot und ich höre dich. Bitte sprich dann die Zahl, die du vor dir siehst, laut und deutlich aus");
@@ -216,6 +211,13 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
     public bool GotAborting { get; set; }
     public bool GotAborted { get; set; }
     public bool GotRequestCompleted { get; set; }
+    public bool GotStoppedListeningDueToTimeout { get; set; }
+
+    public void ShowWitErrorOnScreen(string a, string b)
+    {
+        SetText($"{a} {b}");
+        _speechBubble.gameObject.SetActive(true);
+    }
 
     private void WaitForUtterance(int success, int failure, int notRecognized)
     {
@@ -223,6 +225,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
         {
             SetText("Error");
             GotError = false;
+            _currentGameStage = 10;
             return; 
         }
 
@@ -230,6 +233,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
         {
             SetText("Aborting");
             GotAborting = false;
+            _currentGameStage = 10;
             return;
         }
 
@@ -237,6 +241,14 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
         {
             SetText("Aborted");
             GotAborted = false;
+            _currentGameStage = 10;
+            return;
+        }
+
+        if (GotStoppedListeningDueToTimeout)
+        {
+            GotStoppedListeningDueToTimeout = false;
+            _currentGameStage = 10;
             return;
         }
 
