@@ -53,6 +53,11 @@ namespace Facebook.WitAi.Data
         public void CheckForInput() => _micInput.CheckForInput();
         public AudioEncoding AudioEncoding => _micInput.AudioEncoding;
 
+        private void OnDestroy()
+        {
+            _instanceInit = false;
+        }
+
         private void Awake()
         {
             _instance = this;

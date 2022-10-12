@@ -5,14 +5,14 @@ using UnityEngine;
 public class DontDestroyOnLoad : MonoBehaviour
 {
 
-    private static DontDestroyOnLoad instance;
+    private static GameObject instance;
 
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
         if (instance == null)
         {
-            instance = this;
+            instance = gameObject;
         } else
         {
             Destroy(this);

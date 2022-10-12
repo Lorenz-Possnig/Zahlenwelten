@@ -53,7 +53,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
             {
                 case -1:
                     SetText("");
-                    if (Application.internetReachability == NetworkReachability.NotReachable)
+                    if (Application.internetReachability == NetworkReachability.NotReachable || _wit == null)
                     {
                         _currentGameStage = 10;
                     } else
@@ -213,7 +213,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
     public bool GotRequestCompleted { get; set; }
     public bool GotStoppedListeningDueToTimeout { get; set; }
 
-    public void ShowWitErrorOnScreen(string a, string b)
+    public void ShowWitErrorOnScreen(string a, string b = "")
     {
         SetText($"{a} {b}");
         _speechBubble.gameObject.SetActive(true);
@@ -223,7 +223,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
     {
         if (GotError)
         {
-            SetText("Error");
+            ShowWitErrorOnScreen("Error");
             GotError = false;
             _currentGameStage = 10;
             return; 
@@ -231,7 +231,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
 
         if (GotAborting)
         {
-            SetText("Aborting");
+            ShowWitErrorOnScreen("Aborting");
             GotAborting = false;
             _currentGameStage = 10;
             return;
@@ -239,7 +239,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
 
         if (GotAborted)
         {
-            SetText("Aborted");
+            ShowWitErrorOnScreen("Aborted");
             GotAborted = false;
             _currentGameStage = 10;
             return;
