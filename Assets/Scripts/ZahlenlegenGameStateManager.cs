@@ -242,6 +242,7 @@ public class ZahlenlegenGameStateManager : SimpleGameStateManager
                     _currentGameStage = 1400;
                     break;
                 case 9999:
+                    _isWaiting = true;
                     SceneManager.LoadSceneAsync("Menu");
                     break;
                 default:

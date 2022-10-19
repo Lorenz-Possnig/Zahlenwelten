@@ -180,7 +180,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
                     _currentGameStage = 1100;
                     break;
                 case 9999:
-                    //SceneManager.LoadSceneAsync("Menu");
+                    _isWaiting = true;
                     GetComponent<SceneLoader>().LoadScene("Menu");
                     break;
                 default:
