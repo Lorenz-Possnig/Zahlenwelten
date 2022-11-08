@@ -46,7 +46,7 @@ public class ZahlensagenGameStateManager : SimpleGameStateManager
 
     protected override void Update()
     {
-        base.Update();
+        //base.Update();
         if (!_audioSource.isPlaying && !_isWaiting)
         {
             switch (_currentGameStage)

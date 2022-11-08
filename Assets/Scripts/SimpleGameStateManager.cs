@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,13 @@ public class SimpleGameStateManager : MonoBehaviour
 
     [SerializeField]
     protected float _afterTextDelay = 0;
+
+    [SerializeField]
+    protected DoorManager _doorManager;
+
+    public Brettl[] _brettln;
+
+    public AudioClip[] Numbers;
 
     #region AudioClips
 
@@ -49,19 +57,36 @@ public class SimpleGameStateManager : MonoBehaviour
 
     protected bool _shouldStartWrite = true;
 
+    protected Dictionary<int, IGameState> gameStates = new Dictionary<int, IGameState>();
+
+    protected GameStageFactory gameStageFactory;
+
+    private IGameState _currentState;
+
     protected virtual void Start()
     {
-        
+        _currentState = gameStates[-1];
+        _currentState.OnTransitionIn();
     }
 
     protected virtual void Awake()
     {
-        
+        gameStageFactory = new GameStageFactory(_audioSource, _doorManager, Numbers,
+            new BrettlManager(_brettln), DasHastDuGutGemacht);
     }
 
     protected virtual void Update()
     {
-        
+        if (_currentState.GetNextStage().HasValue)
+        {
+            _currentState.OnTransitionOut();
+            _currentState = gameStates[_currentState.GetNextStage().Value];
+            _currentState.OnTransitionIn();
+        }
+        else
+        {
+            _currentState.Update();
+        }
     }
 
     /// <summary>

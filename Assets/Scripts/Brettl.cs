@@ -3,9 +3,12 @@ using UnityEngine;
 public class Brettl : MonoBehaviour
 {
     public byte ReferenceDigit { get; set; } = 0;
-    public bool IsActive { get; set; } = false;
-    public bool Correct { get; set; } = false;
-    public bool WrongTry { get; set; } = false;
+    public bool active = false;
+    public bool IsActive { get => active; set => active = value; }
+    public bool correct = false;
+    public bool Correct { get => correct; set => correct = value; }
+    public bool wrongTry = false;
+    public bool WrongTry { get => wrongTry; set => wrongTry = value; }
 
     [SerializeField]
     private ParticleSystem _psSuccess;
