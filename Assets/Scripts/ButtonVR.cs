@@ -46,7 +46,7 @@ public class ButtonVR : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == _presser)
+        if (other.gameObject == _presser && IsActive)
         {
             _button.transform.localPosition = new Vector3(0, _originY, 0);
             _onRelease.Invoke();
