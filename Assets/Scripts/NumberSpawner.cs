@@ -48,8 +48,15 @@ public class NumberSpawner : MonoBehaviour
             var go = Instantiate(goToSpawn, location);
             go.GetComponent<Renderer>().material = mat;
             go.transform.localPosition = Vector3.zero;
-            go.transform.localScale = new Vector3(40, 40, 40);
-            go.transform.rotation = Quaternion.Euler(0, 180, 0);
+            go.transform.localScale = new Vector3(1, 1, 1);
+            if (digit == 9)
+            {
+                go.transform.rotation = Quaternion.Euler(0, 180, 180);
+            }
+            else
+            {
+                go.transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
             spawns.Add(go);
             particles[i].startColor = mat.color;
             particles[i].Emit(10);

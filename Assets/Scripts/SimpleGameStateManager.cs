@@ -77,10 +77,13 @@ public class SimpleGameStateManager : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (_currentState.GetNextStage().HasValue)
+        var nextState = _currentState.GetNextStage();
+        if (nextState.HasValue)
         {
+            Debug.Log($"[SimpleGameStateManager] Transitioning from state {_currentGameStage} to {nextState.Value}");
             _currentState.OnTransitionOut();
-            _currentState = gameStates[_currentState.GetNextStage().Value];
+            _currentGameStage = nextState.Value;
+            _currentState = gameStates[_currentGameStage];
             _currentState.OnTransitionIn();
         }
         else

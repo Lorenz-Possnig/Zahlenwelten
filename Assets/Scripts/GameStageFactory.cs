@@ -47,9 +47,15 @@ public class GameStageFactory
     public WaitForNumbersStage WaitForNumbersStage(int success, int fail) =>
         new WaitForNumbersStage(_brettlManager, success, fail);
 
+    public TestmodusWaitForNumberStage TestmodusWaitForNumberStage(NewBrettlManager brettlManager, int next) =>
+        new TestmodusWaitForNumberStage(brettlManager, next);
+
     public FunctionalGameStage OpenDoors(int next) =>
         new FunctionalGameStage(() => _doorManager.Open(), _noOp, next);
 
     public FunctionalGameStage Close(int next) =>
         new FunctionalGameStage(() => _doorManager.Close(), _noOp, next);
+
+    public WaitForUtteranceTestStage WaitForUtteranceStage(ZahlensagenTestGameStateManager manager, int next, int error) =>
+        new WaitForUtteranceTestStage(manager, next, error);
 }

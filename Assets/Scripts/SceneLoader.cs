@@ -37,6 +37,12 @@ public class SceneLoader : MonoBehaviour
     public void LoadZahlenbauen() => LoadScene("Zahlenwelten", Bauen);
     public void LoadZahlensagen() => LoadScene("ZahlenSagen", Sprechen);
 
+    public void LoadZahlenlegenTest() => LoadScene("Testmodus");
+    public void LoadZahlensagenTest() => LoadScene("ZahlenSagenTest");
+
+    public void LoadZahlenlegenTraining() => LoadScene("ZahlenlegenTraining");
+
+    public void LoadZahlensagenTraining() => LoadScene("ZahlenSagenTraining");
     public void LoadScene(string sceneToLoad, AudioClip clip = null)
     {
         _screenFade.FadeOut();

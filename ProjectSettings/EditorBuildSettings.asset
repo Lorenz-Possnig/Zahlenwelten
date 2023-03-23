@@ -14,6 +14,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ZahlenSagen.unity
     guid: 472b1ce4c60585747a3d5ae69a358c76
+  - enabled: 1
+    path: Assets/Scenes/ZahlenSagenTest.unity
+    guid: 5ddac1ca9605113499ba4efc140d6d94
+  - enabled: 1
+    path: Assets/Scenes/Testmodus.unity
+    guid: 3f454e718bba1d64c80422c9efbc049e
+  - enabled: 1
+    path: Assets/Scenes/ZahlenlegenTraining.unity
+    guid: 610a252710f3c2c4b8f4919dc1a41af7
+  - enabled: 1
+    path: Assets/Scenes/ZahlenSagenTraining.unity
+    guid: af581850d8dd0014282bd1c11ce9ed26
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 875f48323f2f3614d988b331b3817484, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: c5554bdf89d23df489adf20ac47245f8, type: 2}
