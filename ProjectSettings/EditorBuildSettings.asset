@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 8d84269a6935f1e489663e06d75169d9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Zahlenwelten.unity
     guid: ec28b5e248e17e841a105acc0a9a159f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ZahlenSagen.unity
     guid: 472b1ce4c60585747a3d5ae69a358c76
   - enabled: 1
