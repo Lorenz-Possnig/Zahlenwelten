@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +34,18 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-    public void LoadMenu() => LoadScene("Menu", Menu);
+    public void LoadMenu()
+    {
+        try
+        {
+            DataSaver.Instance.Save();
+            DataSaver.Instance.Reset();
+        } catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
+        LoadScene("Menu", Menu);
+    }
     public void LoadZahlenbauen() => LoadScene("Zahlenwelten", Bauen);
     public void LoadZahlensagen() => LoadScene("ZahlenSagen", Sprechen);
 

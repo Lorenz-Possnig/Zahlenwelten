@@ -29,7 +29,7 @@ public class SimpleGameStateManager : MonoBehaviour
     protected AudioSource _audioSource;
 
     [SerializeField]
-    protected TextMeshProUGUI _speechBubble;
+    public TextMeshProUGUI _speechBubble;
 
     [SerializeField]
     protected AudioClip ProbierenWirEsNochEinmal;

@@ -27,16 +27,20 @@ public class DataSaver
 
     public void CreateEntry()
     {
-        if (Entry == null)
+        if (Entry == null) // do not overwrite
             Entry = new DataEntry();
     }
 
     public void Save()
     {
-        Entry.TimestampEnd = DateTime.Now;
-        var path = $"{Application.streamingAssetsPath}/{Entry.Guid}.json";
-        var json = Newtonsoft.Json.JsonConvert.SerializeObject(Entry);
-        File.WriteAllTextAsync(path, json);
+        if (Entry != null)
+        {
+            Entry.TimestampEnd = DateTime.Now;
+            var path = $"{Application.persistentDataPath}/{Entry.Guid}.json";
+            Debug.Log($"[DataSaver] {path}");
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(Entry);
+            File.WriteAllTextAsync(path, json);
+        }
     }
 
     public void Reset()

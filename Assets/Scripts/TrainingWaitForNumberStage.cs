@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TrainingWaitForNumberStage : AbstractGameState
 {
+
     private static int failuresInARow = 0;
     private const int allowedFailures = 2;
 

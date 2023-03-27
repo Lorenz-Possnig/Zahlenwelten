@@ -75,7 +75,7 @@ public class TrainingZahlenlegen : SimpleGameStateManager
         gameStates.Add(1000, new DecisionStage(() => {
             var now = DateTime.Now;
             var passedMinutes = (now - startTime).Minutes;
-            return passedMinutes >= 15;
+            return passedMinutes >= 7;
         }, 9000, 1010));
 
         // check if we should increase difficulty
@@ -84,11 +84,13 @@ public class TrainingZahlenlegen : SimpleGameStateManager
             {
                 level = 2;
                 completedLevel1 = 0;
+                numberSupplier.Reset();
             }
             if (completedLevel2 == 5)
             {
                 level = 3;
                 completedLevel2 = 0;
+                numberSupplier.Reset();
             }
         }, () => { }, 1100));
 
@@ -129,11 +131,12 @@ public class TrainingZahlenlegen : SimpleGameStateManager
                 return;
             }
             level--;
+            numberSupplier.Reset();
         }, () => { }, 1000));
 
         // ending => continue to zahlensagen
         gameStates.Add(9000, new FunctionalGameStage(
-            () => { sceneLoader.LoadZahlensagenTest(); },
+            () => { sceneLoader.LoadZahlensagenTraining(); },
             () => { },
             -1));
         

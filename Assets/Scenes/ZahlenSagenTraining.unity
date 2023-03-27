@@ -30419,7 +30419,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e5127bfafefccfe4a9169ae934b36adc, type: 3}
   - {fileID: 8300000, guid: 7fd15adabec5a8340961f080fd2d5a62, type: 3}
   _audioSource: {fileID: 1038140400}
-  _speechBubble: {fileID: 0}
+  _speechBubble: {fileID: 1428575708}
   ProbierenWirEsNochEinmal: {fileID: 8300000, guid: d9c8b5c7783e4b34f87c3e7ddcd32801, type: 3}
   DasHastDuGutGemacht: {fileID: 8300000, guid: 89c7fca5145fe0449b8936f3b6ca0a70, type: 3}
   WagenWirUnsAn: {fileID: 8300000, guid: 0327a05ba2fd5c1489b5b6a0145c52d8, type: 3}

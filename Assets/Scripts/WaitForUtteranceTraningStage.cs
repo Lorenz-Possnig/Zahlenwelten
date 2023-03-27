@@ -75,7 +75,9 @@ public class WaitForUtteranceTraningStage : AbstractGameState
             Debug.LogError("[WaitForUtteranceTrainingStage] Error");
             manager.GotError = false;
             result = Result.ERROR;
-            entryItem.Comment = "Received unspecified error from Wit";
+            var msg = "Received unspecified error from Wit";
+            entryItem.Comment = msg;
+            manager._speechBubble.text = msg;
             return;
         }
 
@@ -84,7 +86,9 @@ public class WaitForUtteranceTraningStage : AbstractGameState
             Debug.LogError("[WaitForUtteranceTrainingStage] Aborting");
             manager.GotAborting = false;
             result = Result.ERROR;
-            entryItem.Comment = "Received status 'Aborting' from Wit";
+            var msg = "Received status 'Aborting' from Wit";
+            entryItem.Comment = msg;
+            manager._speechBubble.text = msg;
             return;
         }
 
@@ -93,7 +97,9 @@ public class WaitForUtteranceTraningStage : AbstractGameState
             Debug.LogError("[WaitForUtteranceTrainingStage] Aborted");
             manager.GotAborted = false;
             result = Result.ERROR;
-            entryItem.Comment = "Received status 'Aborted' from Wit";
+            var msg = "Received status 'Aborted' from Wit";
+            entryItem.Comment = msg;
+            manager._speechBubble.text = msg;
             return;
         }
 
@@ -102,7 +108,9 @@ public class WaitForUtteranceTraningStage : AbstractGameState
             Debug.LogError("[WaitForUtteranceTrainingStage] Timeout");
             manager.GotStoppedListeningDueToTimeout = false;
             result = Result.ERROR;
-            entryItem.Comment = "Received status 'StoppedListeningDueToTimeout' from Wit";
+            var msg = "Received status 'StoppedListeningDueToTimeout' from Wit";
+            entryItem.Comment = msg;
+            manager._speechBubble.text = msg;
             return;
         }
 

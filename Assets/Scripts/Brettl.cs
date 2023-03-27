@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Brettl : MonoBehaviour
@@ -14,6 +15,7 @@ public class Brettl : MonoBehaviour
     public bool IsEmpty() => !correct && !wrongTry;
 
     public Brettl Predecessor;
+    public Brettl Successor;
 
     [SerializeField]
     private ParticleSystem _psSuccess;
@@ -21,29 +23,77 @@ public class Brettl : MonoBehaviour
     [SerializeField]
     private ParticleSystem _psFail;
 
+    [SerializeField]
+    private Color StartColor;
+    [SerializeField]
+    private Color EndColor;
+    [SerializeField]
+    private float CycleTime;
+
+    private bool goingForward = false;
+    public bool isBlinking;
+    private Material Material;
+    private bool coroutineStarted = false;
+
+    public void StartBlink()
+    {
+        goingForward = false;
+        isBlinking = true;
+    }
+
+    public void StopBlink()
+    {
+        isBlinking = false;
+        StopAllCoroutines();
+        coroutineStarted = false;
+        if (Material != null)
+        {
+            Material.color = StartColor;
+        }
+    }
+
+    public void Awake()
+    {
+        goingForward = true;
+        isBlinking = false;
+        var path = "wood";
+        var obj = Resources.Load(path);
+        var mat = obj as Material;
+        Material = Instantiate(mat); //this.gameObject.GetComponent<Renderer>().material;
+        this.gameObject.GetComponent<Renderer>().material = Material;
+    }
+
+    public void Update()
+    {
+        if (isBlinking && !coroutineStarted)
+        {
+            if (goingForward)
+                StartCoroutine(Blink(StartColor, EndColor, CycleTime, Material));
+            else
+                StartCoroutine(Blink(EndColor, StartColor, CycleTime, Material));
+        }
+    }
+
+    private IEnumerator Blink(Color startColor, Color endColor, float cycleTime, Material mat)
+    {
+        coroutineStarted = true;
+        for(float currentTime = 0; currentTime < cycleTime; currentTime += Time.deltaTime)
+        {
+            float t = currentTime / cycleTime;
+            Color currentColor = Color.Lerp(startColor, endColor, t);
+            mat.color = currentColor;
+            yield return null;
+        }
+        goingForward = !goingForward;
+        coroutineStarted = false;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag(Constants.NUMBER_BALOON_TAG))
         {
             NumberBalloon balloon = other.gameObject.GetComponent<NumberBalloon>();
 
-            /*if (IsActive)
-            {
-                var color = other.GetComponent<Renderer>().material.color;
-                var wrong = Predecessor != null && Predecessor.IsEmpty();
-                wrong = wrong && ReferenceDigit == balloon.Value;
-                if (!wrong)
-                {
-                    balloon.Brettl = this;
-                }
-                else
-                {
-                    EmitFailure(color);
-                    balloon.WrongNumberEvent();
-                    if (IsActive)
-                        WrongTry = true;
-                }
-            }*/
             if (IsActive)
             {
                 var color = other.GetComponent<Renderer>().material.color;
@@ -60,11 +110,15 @@ public class Brettl : MonoBehaviour
                 {
                     EmitFailure(color);
                     balloon.WrongNumberEvent();
-                    if (IsActive)
-                        WrongTry = true;
+                    WrongTry = true;
                 } else
-                {
+                { // number was correct
                     balloon.Brettl = this;
+                    StopBlink();
+                    if (Successor != null)
+                    {
+                        Successor.StartBlink();
+                    }
                 }
             }
         }

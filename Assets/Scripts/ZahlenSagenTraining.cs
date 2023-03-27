@@ -58,24 +58,26 @@ public class ZahlenSagenTraining : SimpleGameStateManager
             100,
             10));
         gameStates.Add(10, gameStageFactory.AudioGameStage(NoInternetConnection, 11)); // no internet
-        gameStates.Add(11, new FunctionalGameStage(() => { sceneLoader.LoadMenu(); }, () => { }, -1));
+        gameStates.Add(11, new FunctionalGameStage(() => { DataSaver.Instance.Save();  sceneLoader.LoadMenu(); }, () => { }, -1));
         gameStates.Add(100, gameStageFactory.AudioGameStage(ZahlenSagenIntro, 200));
 
         gameStates.Add(200, new DecisionStage(() =>
         {
             var now = DateTime.Now;
-            return (now - StartTimestamp).Minutes >= 15;
+            return (now - StartTimestamp).Minutes >= 7;
         }, 9000, 300));
         gameStates.Add(300, new FunctionalGameStage(() => {
             if (completedLevel1 == 2)
             {
                 level++;
                 completedLevel1 = 0;
+                numberSupplier.Reset();
             }
             if (completedLevel2 == 5)
             {
                 level++;
                 completedLevel2 = 0;
+                numberSupplier.Reset();
             }
             numberSupplier.DigitsAmount = level;
             var newNum = numberSupplier.getNext();
@@ -107,6 +109,7 @@ public class ZahlenSagenTraining : SimpleGameStateManager
             completedLevel1 = 0;
             completedLevel2 = 0;
             level--;
+            numberSupplier.Reset();
         }, () => { }, 8100));
         gameStates.Add(8100, gameStageFactory.AudioGameStage(ProbierenWirEsNochEinmal, 200));
 

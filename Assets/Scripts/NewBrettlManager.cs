@@ -51,7 +51,10 @@ public class NewBrettlManager : MonoBehaviour
         }
     }
 
-    public void EnableBrettln() => SetBrettlnActiveState(true);
+    public void EnableBrettln() {
+        SetBrettlnActiveState(true);
+        SortedBrettln[0].StartBlink();
+    }
 
     public void DisableBrettln()
     {
@@ -60,6 +63,7 @@ public class NewBrettlManager : MonoBehaviour
         {
             brettl.WrongTry = false;
             brettl.Correct = false;
+            brettl.StopBlink();
         }
         foreach (var balloon in GameObject.FindGameObjectsWithTag("numberBalloon"))
         {
