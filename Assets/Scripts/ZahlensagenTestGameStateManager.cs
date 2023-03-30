@@ -41,10 +41,10 @@ public class ZahlensagenTestGameStateManager : SimpleGameStateManager
         , 12, 15
         , 20, 30, 60
         , 28, 41, 94
-        , 100, 200, 300
+        , 100, 600, 200
         , 206, 501, 803
-        , 120, 430, 910
-        , 213, 381, 642
+        , 120, 430, 940
+        , 213, 385, 642
     });
 
     protected override void Awake()
