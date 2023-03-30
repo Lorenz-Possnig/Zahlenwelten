@@ -41,6 +41,9 @@ public class ZahlenSagenTraining : SimpleGameStateManager
     private int level = 1;
     private int completedLevel1 = 0;
     private int completedLevel2 = 0;
+    private int completedLevel3 = 0;
+    private int completedLevel4 = 0;
+    private int completedLevel5 = 0;
 
     protected override void Awake()
     {
@@ -79,6 +82,24 @@ public class ZahlenSagenTraining : SimpleGameStateManager
                 completedLevel2 = 0;
                 numberSupplier.Reset();
             }
+            if (completedLevel3 == 6)
+            {
+                level++;
+                completedLevel3 = 0;
+                numberSupplier.Reset();
+            }
+            if (completedLevel4 == 6)
+            {
+                level++;
+                completedLevel4 = 0;
+                numberSupplier.Reset();
+            }
+            if (completedLevel5 == 6)
+            {
+                level++;
+                completedLevel5 = 0;
+                numberSupplier.Reset();
+            }
             numberSupplier.DigitsAmount = level;
             var newNum = numberSupplier.getNext();
             _currentNumber = newNum;
@@ -94,6 +115,18 @@ public class ZahlenSagenTraining : SimpleGameStateManager
             if (level == 2)
             {
                 completedLevel2++;
+            }
+            if (level == 3)
+            {
+                completedLevel3++;
+            }
+            if (level == 4)
+            {
+                completedLevel4++;
+            }
+            if (level == 5)
+            {
+                completedLevel5++;
             }
         }, () => { }, 200));
         gameStates.Add(420, gameStageFactory.AudioGameStage(ProbierenWirEsNochEinmal, 400));

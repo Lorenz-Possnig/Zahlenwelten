@@ -31,7 +31,16 @@ public class TestmodusGameStateManager : SimpleGameStateManager
 
     public NewBrettlManager brettlManager;
 
-    private FixedNumberSupplier numberSupplier = new FixedNumberSupplier(new[] { 1, 24, 242 });
+    private FixedNumberSupplier numberSupplier = new FixedNumberSupplier(new[]
+        { 3, 6
+        , 12, 15
+        , 20, 30, 60
+        , 28, 41, 94
+        , 100, 200, 300
+        , 206, 501, 803
+        , 120, 430, 910
+        , 213, 381, 642
+    });
     private const int seconds = 5;
 
     public SceneLoader sceneLoader;

@@ -39,6 +39,9 @@ public class TrainingZahlenlegen : SimpleGameStateManager
     private int level = 1;
     private int completedLevel1 = 0;
     private int completedLevel2 = 0;
+    private int completedLevel3 = 0;
+    private int completedLevel4 = 0;
+    private int completedLevel5 = 0;
 
     protected override void Awake()
     {
@@ -82,14 +85,32 @@ public class TrainingZahlenlegen : SimpleGameStateManager
         gameStates.Add(1010, new FunctionalGameStage(() => {
             if (completedLevel1 == 2)
             {
-                level = 2;
+                level++;
                 completedLevel1 = 0;
                 numberSupplier.Reset();
             }
             if (completedLevel2 == 5)
             {
-                level = 3;
+                level++;
                 completedLevel2 = 0;
+                numberSupplier.Reset();
+            }
+            if (completedLevel3 == 6)
+            {
+                level++;
+                completedLevel3 = 0;
+                numberSupplier.Reset();
+            }
+            if (completedLevel4 == 6)
+            {
+                level++;
+                completedLevel4 = 0;
+                numberSupplier.Reset();
+            }
+            if (completedLevel5 == 6)
+            {
+                level++;
+                completedLevel5 = 0;
                 numberSupplier.Reset();
             }
         }, () => { }, 1100));
@@ -97,7 +118,7 @@ public class TrainingZahlenlegen : SimpleGameStateManager
         // setup numbers
         gameStates.Add(1100, new FunctionalGameStage(() =>
         {
-            brettlManager.SetLevel(level);
+            brettlManager.SetLevel(Math.Min(level, 3));
             numberSupplier.DigitsAmount = level;
             var newNum = numberSupplier.getNext();
             _currentNumber = newNum;
@@ -121,6 +142,19 @@ public class TrainingZahlenlegen : SimpleGameStateManager
             {
                 completedLevel2++;
             }
+            if (level == 3)
+            {
+                completedLevel3++;
+            }
+            if (level == 4)
+            {
+                completedLevel4++;
+            }
+            if (level == 5)
+            {
+                completedLevel5++;
+            }
+
         }, () => { }, 1000));
         gameStates.Add(1320, gameStageFactory.AudioGameStage(ProbierenWirEsNochEinmal, 1300));
 

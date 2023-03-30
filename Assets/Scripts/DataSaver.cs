@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class DataSaver
@@ -36,10 +37,13 @@ public class DataSaver
         if (Entry != null)
         {
             Entry.TimestampEnd = DateTime.Now;
-            var path = $"{Application.persistentDataPath}/{Entry.Guid}.json";
-            Debug.Log($"[DataSaver] {path}");
+            var path = $"{Application.persistentDataPath}/{Entry.Guid}";
+            Directory.CreateDirectory(path);
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(Entry);
-            File.WriteAllTextAsync(path, json);
+            File.WriteAllText($"{path}/{Entry.Guid}.json", json);
+            File.WriteAllText($"{path}/Timestamps.txt", $"From: {Entry.TimestampStart}\nTo: {Entry.TimestampEnd}\nTime: {Entry.TotalTimeInSeconds} seconds");
+            File.WriteAllText($"{path}/zahlenlegen_{Entry.Guid}.csv", Entry.ZahlenlegenCSV());
+            File.WriteAllText($"{path}/zahlensagen_{Entry.Guid}.csv", Entry.ZahlensagenCSV());
         }
     }
 
@@ -64,6 +68,15 @@ public class DataEntry
     public int TotalTimeInSeconds { get; private set; }
     public List<DataEntryItem> ItemsZahlenlegen { get; set; } = new();
     public List<DataEntryItem> ItemsZahlensagen { get; set; } = new();
+
+    private static string AsCSV(List<DataEntryItem> dataEntryItems) =>
+        "Start,End,TimeInSeconds,Item,Correct,Comment\n"+
+        dataEntryItems.Select(entryItem => $"{entryItem.Start},{entryItem.End},{entryItem.TimeInSeconds},{entryItem.Item},{entryItem.Correct},{entryItem.Comment}")
+        .Aggregate((a, b) => a + "\n" + b);
+
+    public string ZahlenlegenCSV() => AsCSV(ItemsZahlenlegen);
+
+    public string ZahlensagenCSV() => AsCSV(ItemsZahlensagen);
 }
 
 [Serializable]

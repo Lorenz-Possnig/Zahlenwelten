@@ -36,26 +36,55 @@ public class RandomNumberSupplier : NumberSupplier
     private const int amountOfTeensToSupply = 2;
     private int suppliedInts = 0;
     private int[] hundreds = new[] { 100, 200, 300, 400, 500, 600, 700, 800, 900 };
-    public int DigitsAmount { get; set; }
+    private int digitsAmount;
+    public int DigitsAmount {
+        get => digitsAmount;
+        set => digitsAmount = value;
+    }
     public RandomNumberSupplier()
     {
 
     }
 
     public override int getNext() {
-        if (this.DigitsAmount == 2 && suppliedInts < amountOfTeensToSupply)
+        return getNext(DigitsAmount);
+        // if (this.DigitsAmount == 2 && suppliedInts < amountOfTeensToSupply)
+        // {
+        //     suppliedInts++;
+        //     return Random.Range(11, 20);
+        // }
+        // if (this.DigitsAmount == 3 && suppliedInts < amountOfTeensToSupply)
+        // {
+        //     suppliedInts++;
+        //     int tween = Random.Range(11, 20);
+        //     int hundred = hundreds[Random.Range(0, 9)];
+        //     return tween + hundred;
+        // }
+        // return NumberGenerator.GetRandom(this.DigitsAmount);
+    }
+
+    private int getNext(int level)
+    {
+        switch (level)
         {
-            suppliedInts++;
-            return Random.Range(11, 20);
+            case 1:
+                return Random.Range(1, 10);
+            case 2:
+                if (suppliedInts < amountOfTeensToSupply)
+                {
+                    suppliedInts++;
+                    return Random.Range(10, 20);
+                }
+                return Random.Range(10, 100);
+            case 3:
+                return NumberGenerator.GetRandom(this.DigitsAmount);
+            case 4:
+                return int.Parse($"{NumberGenerator.GetDigit()}0{NumberGenerator.GetDigit()}");
+            case 5:
+                return int.Parse($"{NumberGenerator.GetDigit()}{NumberGenerator.GetDigit()}0");
+            default:
+                return Random.Range(100, 1000);
         }
-        if (this.DigitsAmount == 3 && suppliedInts < amountOfTeensToSupply)
-        {
-            suppliedInts++;
-            int tween = Random.Range(11, 20);
-            int hundred = hundreds[Random.Range(0, 9)];
-            return tween + hundred;
-        }
-        return NumberGenerator.GetRandom(this.DigitsAmount);
     }
 
     public void Reset()

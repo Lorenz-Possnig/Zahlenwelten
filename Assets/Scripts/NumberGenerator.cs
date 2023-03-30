@@ -20,5 +20,7 @@ public class NumberGenerator
         return int.Parse(number);
     }
 
+
+    public static int GetDigit() => Random.Range(1, 10);
 }
 

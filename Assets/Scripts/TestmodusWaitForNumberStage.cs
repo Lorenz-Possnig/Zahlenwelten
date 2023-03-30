@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestmodusWaitForNumberStage : AbstractGameState
 {
     private static int failuresInARow = 0;
-    private const int allowedFailures = 2;
+    private const int allowedFailures = int.MaxValue; // reset this to enable stopping after consecutive errors
     private const int endGameGameStage = -5;
     private NewBrettlManager brettlManager;
 
