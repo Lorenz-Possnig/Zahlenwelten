@@ -59,6 +59,7 @@ public class WaitForUtteranceTraningStage : AbstractGameState
 
     public override void OnTransitionIn()
     {
+        DataSaver.Instance.CreateEntry();
         entryItem = new DataEntryItem();
         result = null;
     }
