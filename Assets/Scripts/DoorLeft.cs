@@ -6,7 +6,7 @@ public class DoorLeft : AbstractDoor, Door
 {
     public override void Close()
     {
-        if (!IsClosed && !IsMoving)
+        if (!IsClosed && !IsMoving && this.gameObject.activeSelf)
         {
             StartCoroutine(DecreaseRotation());
             IsClosed = true;
@@ -16,7 +16,7 @@ public class DoorLeft : AbstractDoor, Door
 
     public override void Open()
     {
-        if (!IsOpen && !IsMoving)
+        if (!IsOpen && !IsMoving && this.gameObject.activeSelf)
         {
             StartCoroutine(IncreaseRotation());
             IsOpen = true;
