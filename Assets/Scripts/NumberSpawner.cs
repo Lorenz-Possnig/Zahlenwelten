@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NumberSpawner : MonoBehaviour
 {
-    public GameObject[] Digits = new GameObject[9];
+    public GameObject[] Digits = new GameObject[10];
 
     public Transform[] SpawnLocations = new Transform[3];
     public ParticleSystem[] particles = new ParticleSystem[3];
@@ -42,7 +42,7 @@ public class NumberSpawner : MonoBehaviour
         for (int i = 0; i < digits.Length; i++)
         {
             var digit = digits[i];
-            var goToSpawn = Digits[digit - 1];
+            var goToSpawn = Digits[digit];
             var location = SpawnLocations[i];
             var mat = materials[Random.Range(0, materials.Length)];
             var go = Instantiate(goToSpawn, location);
