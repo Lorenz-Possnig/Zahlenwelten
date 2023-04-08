@@ -26,13 +26,16 @@ public class GameStageFactory
     public AudioGameStage AudioGameStage(AudioClip clip, int next) =>
         new AudioGameStage(_audioSource, clip, next);
 
-    public AudioGameStage AudioStageWithDoorOpenAndClose(AudioClip clip, int next) =>
-        new AudioGameStage(_audioSource, clip, next, () => _doorManager.Open(), () => _doorManager.Close());
+    public AudioGameStage AudioStageWithDoorOpenAndClose(AudioClip clip, int next) => _doorManager == null ?
+            new AudioGameStage(_audioSource, clip, next, _noOp, _noOp) :
+            new AudioGameStage(_audioSource, clip, next, () => _doorManager.Open(), () => _doorManager.Close());
 
-    public AudioGameStage AudioStageWithDoorClose(AudioClip clip, int next) =>
+    public AudioGameStage AudioStageWithDoorClose(AudioClip clip, int next) => _doorManager == null ?
+        new AudioGameStage(_audioSource, clip, next, _noOp, _noOp) :
         new AudioGameStage(_audioSource, clip, next, _noOp, () => _doorManager.Close());
 
-    public AudioGameStage AudioStageWithDoorOpen(AudioClip clip, int next) =>
+    public AudioGameStage AudioStageWithDoorOpen(AudioClip clip, int next) => _doorManager == null ?
+        new AudioGameStage(_audioSource, clip, next, _noOp, _noOp) :
         new AudioGameStage(_audioSource, clip, next, () => _doorManager.Open(), _noOp);
 
     public AudioGameStage SayNumberStage(int number, int next) =>
@@ -50,10 +53,12 @@ public class GameStageFactory
     public TestmodusWaitForNumberStage TestmodusWaitForNumberStage(NewBrettlManager brettlManager, int next) =>
         new TestmodusWaitForNumberStage(brettlManager, next);
 
-    public FunctionalGameStage OpenDoors(int next) =>
+    public FunctionalGameStage OpenDoors(int next) => _doorManager == null ?
+        new FunctionalGameStage(_noOp, _noOp, next) :
         new FunctionalGameStage(() => _doorManager.Open(), _noOp, next);
 
-    public FunctionalGameStage Close(int next) =>
+    public FunctionalGameStage Close(int next) => _doorManager == null ?
+        new FunctionalGameStage(_noOp, _noOp, next) :
         new FunctionalGameStage(() => _doorManager.Close(), _noOp, next);
 
     public WaitForUtteranceTestStage WaitForUtteranceStage(ZahlensagenTestGameStateManager manager, int next, int error) =>
