@@ -69,10 +69,16 @@ public class DataEntry
     public List<DataEntryItem> ItemsZahlenlegen { get; set; } = new();
     public List<DataEntryItem> ItemsZahlensagen { get; set; } = new();
 
-    private static string AsCSV(List<DataEntryItem> dataEntryItems) =>
-        "Start,End,TimeInSeconds,Item,Correct,Comment\n"+
-        dataEntryItems.Select(entryItem => $"{entryItem.Start},{entryItem.End},{entryItem.TimeInSeconds},{entryItem.Item},{entryItem.Correct},{entryItem.Comment}")
-        .Aggregate((a, b) => a + "\n" + b);
+    private static string AsCSV(List<DataEntryItem> dataEntryItems)
+    {
+        if (!dataEntryItems.Any())
+        {
+            return "";
+        }
+        return "Start,End,TimeInSeconds,Item,Correct,Comment\n" +
+            dataEntryItems.Select(entryItem => $"{entryItem.Start},{entryItem.End},{entryItem.TimeInSeconds},{entryItem.Item},{entryItem.Correct},{entryItem.Comment}")
+            .Aggregate("", (a, b) => a + "\n" + b);
+    }
 
     public string ZahlenlegenCSV() => AsCSV(ItemsZahlenlegen);
 

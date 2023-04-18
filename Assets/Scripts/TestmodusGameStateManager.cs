@@ -41,6 +41,7 @@ public class TestmodusGameStateManager : SimpleGameStateManager
         , 120, 430, 940
         , 213, 385, 642
     });
+    // private FixedNumberSupplier numberSupplier = new FixedNumberSupplier(new[] { 1, 2, 3 });
     private const int seconds = 5;
 
     public SceneLoader sceneLoader;
