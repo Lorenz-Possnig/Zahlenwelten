@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,7 +50,13 @@ public class WaitForUtteranceTestStage : AbstractGameState
     public override void OnTransitionIn()
     {
         DataSaver.Instance.CreateEntry();
-        entryItem = new();
+        entryItem = new()
+        {
+            Comment = "Generic Error",
+            Correct = false,
+            End = DateTime.Now,
+            Item = manager.CurrentNumber.ToString()
+        };
         result = null;
     }
 
@@ -63,40 +70,40 @@ public class WaitForUtteranceTestStage : AbstractGameState
         if (manager.GotError)
         {
             Debug.LogError("Error");
+            entryItem.End = System.DateTime.Now;
+            entryItem.Item = manager.CurrentNumber.ToString();
             manager.GotError = false;
             result = Result.ERROR;
             entryItem.Comment = "Received unspecified error from Wit";
-            return;
         }
-
-        if (manager.GotAborting)
+        else if (manager.GotAborting)
         {
             Debug.LogError("Aborting");
+            entryItem.End = System.DateTime.Now;
+            entryItem.Item = manager.CurrentNumber.ToString();
             manager.GotAborting = false;
             result = Result.ERROR;
             entryItem.Comment = "Received status 'Aborting' from Wit";
-            return;
         }
-
-        if (manager.GotAborted)
+        else if (manager.GotAborted)
         {
             Debug.LogError("Aborted");
+            entryItem.End = System.DateTime.Now;
+            entryItem.Item = manager.CurrentNumber.ToString();
             manager.GotAborted = false;
             result = Result.ERROR;
             entryItem.Comment = "Received status 'Aborted' from Wit";
-            return;
         }
-
-        if (manager.GotStoppedListeningDueToTimeout)
+        else if (manager.GotStoppedListeningDueToTimeout)
         {
             Debug.LogError("Timeout");
+            entryItem.End = System.DateTime.Now;
+            entryItem.Item = manager.CurrentNumber.ToString();
             manager.GotStoppedListeningDueToTimeout = false;
             result = Result.ERROR;
             entryItem.Comment = "Received status 'StoppedListeningDueToTimeout' from Wit";
-            return;
         }
-
-        if (manager.GotRequestCompleted) // this means a request was completed
+        else if (manager.GotRequestCompleted) // this means a request was completed
         {
             entryItem.End = System.DateTime.Now;
             entryItem.Item = manager.CurrentNumber.ToString();

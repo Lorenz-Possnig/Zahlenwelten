@@ -56,6 +56,7 @@ namespace Facebook.WitAi.Data
         private void OnDestroy()
         {
             _instanceInit = false;
+            _instance = null;
         }
 
         private void Awake()

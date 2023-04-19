@@ -117,7 +117,10 @@ public class TestmodusGameStateManager : SimpleGameStateManager
 
     private void RepeatNumber()
     {
-        _audioSource.PlayOneShot(Numbers[_currentNumber]);
+        if (!_audioSource.isPlaying)
+        {
+            _audioSource.PlayOneShot(Numbers[_currentNumber]);
+        }
     }
 
     private IEnumerator RepeatNumberAfterSeconds(int seconds)

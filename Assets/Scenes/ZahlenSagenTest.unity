@@ -82005,7 +82005,7 @@ MonoBehaviour:
     maxRecordingTime: 20
     soundWakeThreshold: 0.001
     sampleLengthInMs: 10
-    micBufferLengthInSeconds: 1
+    micBufferLengthInSeconds: 2
     maxConcurrentRequests: 5
     sendAudioToWit: 1
     customTranscriptionProvider: {fileID: 0}

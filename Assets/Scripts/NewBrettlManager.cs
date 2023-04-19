@@ -58,7 +58,7 @@ public class NewBrettlManager : MonoBehaviour
 
     public void DisableBrettln()
     {
-        SetBrettlnActiveState(false);
+        //SetBrettlnActiveState(false);
         foreach (var brettl in SortedBrettln)
         {
             brettl.WrongTry = false;

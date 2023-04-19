@@ -5,7 +5,7 @@ public class Brettl : MonoBehaviour
 {
     public byte ReferenceDigit { get => referenceDigit; set => referenceDigit = value; }
     public byte referenceDigit = 0;
-    public bool active = false;
+    public bool active = true;
     public bool IsActive { get => active; set => active = value; }
     public bool correct = false;
     public bool Correct { get => correct; set => correct = value; }

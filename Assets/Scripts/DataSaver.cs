@@ -58,14 +58,15 @@ public class DataEntry
 {
     public Guid Guid { get; } = Guid.NewGuid();
     public DateTime TimestampStart { get; } = DateTime.Now;
-    private DateTime end;
-    public DateTime TimestampEnd { get {
-            return end;
-        } set {
-            end = value;
-            TotalTimeInSeconds = (end - TimestampStart).Seconds;
-        } }
-    public int TotalTimeInSeconds { get; private set; }
+    public DateTime TimestampEnd { get; set; } = DateTime.MaxValue;
+    // private DateTime end;
+    // public DateTime TimestampEnd { get {
+    //         return end;
+    //     } set {
+    //         end = value;
+    //         TotalTimeInSeconds = (end - TimestampStart).Seconds;
+    //     } }
+    public int TotalTimeInSeconds => (TimestampEnd - TimestampStart).Seconds;
     public List<DataEntryItem> ItemsZahlenlegen { get; set; } = new();
     public List<DataEntryItem> ItemsZahlensagen { get; set; } = new();
 

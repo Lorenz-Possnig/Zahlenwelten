@@ -20,13 +20,12 @@ public class FileLogger : MonoBehaviour
         Application.logMessageReceived -= Log;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        Filename = Application.dataPath + "/Logs.txt";
+        Filename = $"{Application.persistentDataPath}/{DateTime.Now.ToString("dd_MM_yyyy")}_Logs.txt";
     }
 
-    public void Log(string logString, string stackTrace, LogType logType)
+    private void Log(string logString, string stackTrace, LogType logType)
     {
         TextWriter tw = new StreamWriter(Filename, true);
         tw.WriteLine($"[{DateTime.Now}] {logString}");

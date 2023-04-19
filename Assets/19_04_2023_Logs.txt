@@ -1,0 +1,31 @@
+[4/19/2023 10:29:21 PM] Starting to write logs to C:/Users/loren/Documents/Zahlenwelten/Assets/19_04_2023_Logs.txt
+[4/19/2023 10:29:21 PM] Checking for Mic Devices
+[4/19/2023 10:29:21 PM] Checking for Mic Devices
+[4/19/2023 10:29:21 PM] [OVRManager] OnApplicationPause(false)
+[4/19/2023 10:29:21 PM] [OVRManager] OnApplicationFocus(true)
+[4/19/2023 10:29:21 PM] [SimpleGameStateManager] Transitioning from state -1 to 100
+[4/19/2023 10:29:34 PM] [SimpleGameStateManager] Transitioning from state 100 to 200
+[4/19/2023 10:29:34 PM] [SimpleGameStateManager] Transitioning from state 200 to 300
+[4/19/2023 10:29:39 PM] [OVRManager] OnApplicationFocus(false)
+[4/19/2023 10:29:39 PM] [OVRManager] OnApplicationQuit
+[4/19/2023 10:29:39 PM] [OVRManager] OnDestroy
+[4/19/2023 10:29:39 PM] Stopping to write logs to C:/Users/loren/Documents/Zahlenwelten/Assets/19_04_2023_Logs.txt
+[4/19/2023 10:29:58 PM] Starting to write logs to C:/Users/loren/Documents/Zahlenwelten/Assets/19_04_2023_Logs.txt
+[4/19/2023 10:29:58 PM] Checking for Mic Devices
+[4/19/2023 10:29:58 PM] Checking for Mic Devices
+[4/19/2023 10:29:58 PM] [OVRManager] OnApplicationPause(false)
+[4/19/2023 10:29:58 PM] [OVRManager] OnApplicationFocus(true)
+[4/19/2023 10:29:58 PM] [SimpleGameStateManager] Transitioning from state -1 to 100
+[4/19/2023 10:30:10 PM] [SimpleGameStateManager] Transitioning from state 100 to 200
+[4/19/2023 10:30:10 PM] [SimpleGameStateManager] Transitioning from state 200 to 300
+[4/19/2023 10:30:15 PM] [OVRManager] OnApplicationFocus(false)
+[4/19/2023 10:30:15 PM] [OVRManager] OnApplicationQuit
+[4/19/2023 10:30:15 PM] [OVRManager] OnDestroy
+[4/19/2023 10:30:15 PM] Stopping to write logs to C:/Users/loren/Documents/Zahlenwelten/Assets/19_04_2023_Logs.txt
+[4/19/2023 11:47:41 PM] Starting to write logs to C:/Users/loren/Documents/Zahlenwelten/Assets/19_04_2023_Logs.txt
+[4/19/2023 11:47:42 PM] [OVRManager] OnApplicationPause(false)
+[4/19/2023 11:47:42 PM] [OVRManager] OnApplicationFocus(true)
+[4/19/2023 11:47:45 PM] [OVRManager] OnApplicationFocus(false)
+[4/19/2023 11:47:45 PM] [OVRManager] OnApplicationQuit
+[4/19/2023 11:47:45 PM] [OVRManager] OnDestroy
+[4/19/2023 11:47:45 PM] Stopping to write logs to C:/Users/loren/Documents/Zahlenwelten/Assets/19_04_2023_Logs.txt
